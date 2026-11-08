@@ -283,6 +283,9 @@ const DATA = [
 {v:"九章云极 DataCanvas", n:"大模型一体机", d:"2025 起", c:"多元算力", m:"按配置", model:"DataCanvas 平台预装", form:"enterprise", region:"cn", camp:"cnp",
  src:"https://www.datacanvas.com", st:"media",
  note:"IDC 报告收录的 AI 平台厂商。"},
+{v:"阿里平头哥", n:"真武 810E / M890 GPU 服务器", d:"2026.01 官网发布 / 2026.10 运营商采购", c:"自研真武 PPU(GPGPU 路线)", m:"96G HBM2e(810E) / 144G(M890)", model:"对标 H20 级训推(参数未公开)", form:"rack", region:"cn", camp:"cnp",
+ src:"http://www.eeo.com.cn/2026/0211/788949.shtml", st:"media",
+ note:"阿里 PPU '内供转外销'实证:联通三江源智算中心中标 54%(1945P),小鹏/比亚迪万片级;2026.10 陕西电信寻源采购 32 台 M890(256 卡,1.19 亿)建国产智算私有云——私有化报价已在政企市场出现。报价比 H20 低约 32%。含光 800/倚天 710 仍仅阿里云自用,不外卖。"},
 
 /* ================= 国内 · 服务器/基础设施 OEM ================= */
 {v:"浪潮信息", n:"EPAI 一体机", d:"2024 起迭代", c:"多元算力(含国产 NPU)", m:"按配置", model:"企业大模型训推私有", form:"enterprise", region:"cn", camp:"cnp",
@@ -385,7 +388,7 @@ function render(){
     {key:"isoft",   title:"软通系", sub:"昇腾授权伙伴,天璇 MaaS 软硬一体"},
     {key:"atlas",   title:"华为 Atlas 边缘系列", sub:"从 2018 年 Atlas 500 开始的边缘小站祖师爷"},
     {key:"ascend",  title:"昇腾生态一体机潮 · 2025.02 DeepSeek 时刻", sub:"拓维/恒为/云从/开普云……密集上新"},
-    {key:"cloud",   title:"云厂商 / AI 公司一体机", sub:"IDC 报告口径的云计算与大模型创企"},
+    {key:"cloud",   title:"云厂商 / AI 公司一体机", sub:"IDC 报告口径云计算与 AI 创企 + 阿里平头哥 PPU 私有化"},
     {key:"oem",     title:"服务器 / 基础设施 OEM", sub:"浪潮/新华三/联想/曙光 + 国产芯片系"},
     {key:"carrier", title:"运营商云一体机", sub:"天翼/联通数科"},
     {key:"edgecn",  title:"边缘 / 行业小站", sub:"工控与垂直行业"},
@@ -402,7 +405,7 @@ function render(){
       case "isoft": return d.v.includes("软通");
       case "atlas": return d.v==="华为";
       case "ascend": return d.camp==="ascend" && !["华为","软通动力","软通动力(软通计算机)","宝德 PowerLeader"].includes(d.v) && d.st!=="pending";
-      case "cloud": return ["百度智能云","深信服","商汤科技","科大讯飞","广电运通","智谱 AI","ZStack","星环科技","九章云极 DataCanvas"].includes(d.v);
+      case "cloud": return ["百度智能云","深信服","商汤科技","科大讯飞","广电运通","智谱 AI","ZStack","星环科技","九章云极 DataCanvas","阿里平头哥"].includes(d.v);
       case "oem": return ["浪潮信息","新华三 H3C","联想","曙光云","先进数通","曙光/海光系","摩尔线程","燧原科技","寒武纪","宝德 PowerLeader","神州数码","Khadas"].includes(d.v);
       case "carrier": return ["天翼云","联通数科"].includes(d.v);
       case "edgecn": return ["云天励飞","研华 Advantech","凌华 ADLINK"].includes(d.v);
