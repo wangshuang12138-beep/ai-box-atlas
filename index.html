@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>端侧 AI 一体机图鉴 · Edge AI Appliance Atlas</title>
+<!-- 设计参考: Pokédex 图鉴卡片(编号+属性标签) × Linear 克制深色 × Stripe 文档排版 -->
+<style>
+  :root{
+    --bg:#0a0c10; --panel:#12151c; --panel2:#171b24; --line:#232936;
+    --ink:#e8ecf3; --ink2:#9aa5b6; --ink3:#5c6678;
+    --nv:#76b900;   /* NVIDIA 绿 */
+    --asc:#e8572a;  /* 昇腾橙 */
+    --cnp:#4f8ef7;  /* 国产 NPU 蓝 */
+    --amd:#d94444;  /* AMD 红 */
+    --x86:#8e7ff0;  /* x86+GPU 紫 */
+    --apl:#a2b0bf;  /* 苹果 灰 */
+    --ok:#3fb68b; --warn:#e0a53f;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+
+  /* ===== header ===== */
+  header{padding:48px 0 20px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:12px;letter-spacing:.35em;color:var(--ink3);text-transform:uppercase;margin-bottom:14px}
+  h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.01em;line-height:1.2}
+  h1 .accent{color:var(--nv)}
+  .lede{max-width:760px;color:var(--ink2);margin-top:14px;font-size:15px}
+  .lede b{color:var(--ink);font-weight:600}
+  .stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 18px;min-width:110px}
+  .stat .n{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+  .stat .l{font-size:11px;color:var(--ink3);letter-spacing:.08em;margin-top:2px}
+  .rulebox{margin-top:18px;padding:12px 16px;background:var(--panel);border-left:3px solid var(--nv);border-radius:0 10px 10px 0;color:var(--ink2);font-size:13px;max-width:860px}
+  .rulebox b{color:var(--ink)}
+
+  /* ===== filters ===== */
+  .filters{position:sticky;top:0;z-index:50;background:rgba(10,12,16,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:14px 0}
+  .frow{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+  .fgroup{display:flex;align-items:center;gap:8px}
+  .fgroup .fl{font-size:11px;color:var(--ink3);letter-spacing:.12em;white-space:nowrap}
+  .chip{border:1px solid var(--line);background:var(--panel);color:var(--ink2);font-size:12px;padding:5px 12px;border-radius:99px;cursor:pointer;transition:all .18s;user-select:none;font-family:inherit}
+  .chip:hover{border-color:var(--ink3);color:var(--ink)}
+  .chip.on{background:var(--ink);color:#0a0c10;border-color:var(--ink);font-weight:600}
+  .chip .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:1px}
+  #count{margin-left:auto;font-size:12px;color:var(--ink3);font-variant-numeric:tabular-nums}
+
+  /* ===== cards ===== */
+  main{padding:28px 0 60px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 14px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}
+  .card:hover{border-color:var(--ink3);transform:translateY(-2px)}
+  .card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--camp,var(--ink3))}
+  .chead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .cnum{font-size:11px;color:var(--ink3);font-variant-numeric:tabular-nums;letter-spacing:.1em;white-space:nowrap}
+  .cvendor{font-size:12px;color:var(--camp,var(--ink2));font-weight:700;letter-spacing:.06em}
+  .cname{font-size:17px;font-weight:800;line-height:1.35;letter-spacing:-.01em}
+  .cspec{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px}
+  .cspec dt{color:var(--ink3);white-space:nowrap}
+  .cspec dd{color:var(--ink2)}
+  .cspec dd.hl{color:var(--ink);font-weight:600}
+  .ctags{display:flex;flex-wrap:wrap;gap:6px}
+  .tag{font-size:10.5px;padding:2.5px 9px;border-radius:99px;border:1px solid var(--line);color:var(--ink3);letter-spacing:.05em}
+  .tag.form{color:var(--ink2);border-color:var(--ink3)}
+  .cfoot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:10px;border-top:1px dashed var(--line)}
+  .src{font-size:12px;text-decoration:none;color:var(--ok);display:inline-flex;align-items:center;gap:4px;max-width:75%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .src:hover{text-decoration:underline}
+  .src.media{color:var(--warn)}
+  .srcdomain{font-size:11px;color:var(--ink3)}
+  .note{font-size:11.5px;color:var(--ink3);font-style:normal;line-height:1.5}
+  .group-h{display:flex;align-items:baseline;gap:12px;margin:34px 0 14px}
+  .group-h h2{font-size:19px;font-weight:800;letter-spacing:-.01em}
+  .group-h .sub{font-size:12px;color:var(--ink3)}
+  .group-h .bar{flex:1;height:1px;background:var(--line)}
+  .empty{padding:60px 0;text-align:center;color:var(--ink3);display:none}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 46px;color:var(--ink3);font-size:12px}
+  footer p{margin-bottom:6px}
+  footer b{color:var(--ink2)}
+
+  @media (max-width:640px){
+    .grid{grid-template-columns:1fr}
+    #count{width:100%;margin:0}
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <div class="eyebrow">Edge AI Appliance Atlas · 数据快照 2026-11-08</div>
+  <h1>端侧 AI 一体机图鉴<span class="accent">.</span></h1>
+  <p class="lede">市面上所有号称能<b>本地部署大模型</b>的整机盒子、一体机、边缘小站——从英伟达 DGX Spark 到超聚变 FusionXpark,从华为 Atlas 小站到昇腾生态的 DeepSeek 一体机潮,国内外能捞的都捞出来了。每条附<b>发布情况 + 官方链接</b>,来源分两级:绿标 <b>[official]</b> 官方页核实,黄标 <b>[media]</b> 媒体报道待官方核实。</p>
+  <div class="stats" id="stats"></div>
+  <div class="rulebox"><b>收录口径:</b> ① 整机形态(非裸卡、非纯云服务) ② 厂商明确宣称可本地跑 LLM ③ 含企业一体机 / 桌面小盒 / 边缘小站 / 迷你主机,机架式单独标注。苹果 Mac Studio 等未官方主打本地大模型、但社区广泛充当本地 LLM 载体的列为<b>边界样本</b>。裸加速卡、纯 GPU 服务器(如 HGX 节点)不计入。</div>
+</div></header>
+
+<div class="filters"><div class="wrap">
+  <div class="frow">
+    <div class="fgroup" id="fRegion">
+      <span class="fl">地区</span>
+      <button class="chip on" data-v="all">全部</button>
+      <button class="chip" data-v="cn">国内</button>
+      <button class="chip" data-v="us">国外</button>
+    </div>
+    <div class="fgroup" id="fForm">
+      <span class="fl">形态</span>
+      <button class="chip on" data-v="all">全部</button>
+      <button class="chip" data-v="enterprise">企业一体机</button>
+      <button class="chip" data-v="box">桌面小盒</button>
+      <button class="chip" data-v="edge">边缘小站</button>
+      <button class="chip" data-v="mini">迷你主机</button>
+      <button class="chip" data-v="rack">机架/服务器</button>
+    </div>
+    <div class="fgroup" id="fCamp">
+      <span class="fl">芯片阵营</span>
+      <button class="chip on" data-v="all">全部</button>
+      <button class="chip" data-v="nvidia"><span class="dot" style="background:var(--nv)"></span>NVIDIA</button>
+      <button class="chip" data-v="ascend"><span class="dot" style="background:var(--asc)"></span>昇腾</button>
+      <button class="chip" data-v="cnp"><span class="dot" style="background:var(--cnp)"></span>国产 NPU</button>
+      <button class="chip" data-v="amd"><span class="dot" style="background:var(--amd)"></span>AMD</button>
+      <button class="chip" data-v="x86"><span class="dot" style="background:var(--x86)"></span>x86+GPU</button>
+      <button class="chip" data-v="apple"><span class="dot" style="background:var(--apl)"></span>Apple</button>
+    </div>
+    <span id="count"></span>
+  </div>
+</div></div>
+
+<main><div class="wrap">
+  <div id="groups"></div>
+  <div class="empty" id="empty">没有符合筛选条件的条目 — 换个组合试试</div>
+</div></main>
+
+<footer><div class="wrap">
+  <p><b>数据纪律:</b> 算力/可跑模型均照厂商宣称口径收录,未公开参数标"未公布",来源弱的一律黄标。厂商宣称 ≠ 实测,采购前请实测。</p>
+  <p>快照 2026-11-08 · 搜索引擎交叉核实 · 发现错漏或新品 → 欢迎提 issue 或 PR 补录</p>
+  <p>风格参考: Pokédex 图鉴 × Linear × Stripe 文档 · 单文件零依赖</p>
+</div></footer>
+
+<script>
+/* ============================================================
+ * DATA — 每条: 厂商 / 型号 / 发布 / 芯片 / 内存 / 可跑模型 / 形态 / 地区 / 阵营 / 链接 / 来源类型 / 备注
+ * srcType: official=官方页核实(绿)  media=媒体报道(黄)
+ * ============================================================ */
+const FORM_LABEL = {enterprise:"企业一体机", box:"桌面小盒", edge:"边缘小站", mini:"迷你主机", rack:"机架/服务器"};
+const CAMP_COLOR = {nvidia:"var(--nv)", ascend:"var(--asc)", cnp:"var(--cnp)", amd:"var(--amd)", x86:"var(--x86)", apple:"var(--apl)"};
+const CAMP_LABEL = {nvidia:"NVIDIA", ascend:"昇腾", cnp:"国产NPU", amd:"AMD", x86:"x86+GPU", apple:"Apple"};
+
+const DATA = [
+
+/* ================= 国外 · NVIDIA 官方盒子系列 ================= */
+{v:"NVIDIA", n:"DGX Spark", d:"2025.03 发布 / 2025.10 上市", c:"GB10 Grace Blackwell 超级芯片 ×1", m:"128GB LPDDR5x 统一内存", model:"200B 参数本地 / 两台簇跑 405B", form:"box", region:"us", camp:"nvidia",
+ src:"https://www.nvidia.com/en-us/products/workstations/dgx-spark/", st:"official",
+ note:"Project DIGITS 转正。FP4 1 PFLOP、ConnectX-7 200GbE。$3,999 起;Acer/ASUS/Dell/Gigabyte/HP/MSI/Lenovo 七家 OEM 版同步铺货,是这一轮桌面 AI 盒子的源头。"},
+{v:"NVIDIA", n:"DGX Station", d:"2025 发布 / 2026 陆续出货", c:"GB300 Grace Blackwell Ultra ×1", m:"784GB 统一内存", model:"数百 B 参数级本地训推", form:"box", region:"us", camp:"nvidia",
+ src:"https://www.nvidia.com/en-us/products/workstations/dgx-station/", st:"official",
+ note:"桌面塔式旗舰,FP4 约 20 PFLOPS。报道口径 $99,000–$149,000。Spark 的大哥,定位个人/工作组的数据中心替代品。"},
+{v:"NVIDIA", n:"Jetson AGX Thor 开发套件", d:"2025.08 上市", c:"Jetson Thor (Ampere 架构 GPU + 16核 Arm)", m:"128GB LPDDR5", model:"边缘多模态大模型 / VLA 机器人模型", form:"edge", region:"us", camp:"nvidia",
+ src:"https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-thor/", st:"official",
+ note:"$3,499。机器人/具身智能边缘旗舰,8X Orin 性能,面向本地跑 VLA 大模型。"},
+{v:"NVIDIA", n:"Jetson Orin Nano Super 开发套件", d:"2024.12 上市", c:"Orin Nano 8GB", m:"8GB 共享内存", model:"小模型推理 / 视觉-语言轻量应用", form:"edge", region:"us", camp:"nvidia",
+ src:"https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/", st:"official",
+ note:"$249 起,67 TOPS INT8。最便宜的一线 AI 边缘盒子,教育/创客市场爆品,麻雀虽小五脏全。"},
+{v:"NVIDIA", n:"IGX Orin 工业医疗边缘平台", d:"2022 发布 / 持续在售", c:"Jetson AGX Orin + RTX A 系列可选", m:"最高 960GB", model:"工业/医疗实时 AI 推理", form:"edge", region:"us", camp:"nvidia",
+ src:"https://www.nvidia.com/en-us/edge-computing/products/igx/", st:"official",
+ note:"功能安全+实时性认证,医疗手术机器人、工业产线场景,边缘盒子里最讲'可靠'的一支。"},
+
+/* ================= 国外 · AMD Strix Halo 迷你主机潮 ================= */
+{v:"Framework", n:"Framework Desktop", d:"2025.09 上市", c:"AMD Ryzen AI Max+ 395 (Strix Halo)", m:"128GB LPDDR5X", model:"70B 级本地 LLM / 官方主打本地 AI", form:"mini", region:"us", camp:"amd",
+ src:"https://frame.work/products/desktop12", st:"official",
+ note:"$1,999 起(128GB 版)。模块化迷你主机,主板可拆换,开源社区把它当成可维护的本地 AI 工作站标杆。"},
+{v:"GMKtec 极摩客", n:"EVO-X2", d:"2025.04 预售 / 2025.05 全球上市", c:"AMD Ryzen AI Max+ 395", m:"64/96/128GB LPDDR5X-8000", model:"官方演示本地跑 235B;70B 官方宣称", form:"mini", region:"us", camp:"amd",
+ src:"https://www.gmktec.com", st:"official",
+ note:"国内厂商出海。首发 ¥14,999(128GB+2TB),美国 $1,499–$1,999。LM Studio 实测宣传超 RTX 4090 2.2×,风扇噪音是主要槽点。"},
+{v:"HP", n:"Z2 Mini G1a 工作站", d:"2025 上市", c:"AMD Ryzen AI Max+ 395", m:"最高 128GB", model:"本地 AI 推理/轻量训练工作站", form:"mini", region:"us", camp:"amd",
+ src:"https://www.hp.com", st:"media",
+ note:"Strix Halo 工作站化代表,一线 OEM 里最规范的迷你 AI 工作站之一。"},
+{v:"Dell", n:"Dell Pro Max Micro", d:"2025 上市", c:"AMD Ryzen AI Max 系列", m:"最高 128GB", model:"本地 AI 工作站定位", form:"mini", region:"us", camp:"amd",
+ src:"https://www.dell.com", st:"media",
+ note:"戴尔小钢炮工作站线,Strix Halo 让 2.5L 机身有了工作站名号。"},
+{v:"Lenovo", n:"ThinkCentre Neo Ultra", d:"2024.01 发布", c:"Intel Core Ultra + NVIDIA RTX 4060 独显", m:"最高 64GB DDR5", model:"本地 LLM / AIGC 创作", form:"mini", region:"us", camp:"x86",
+ src:"https://www.lenovo.com", st:"media",
+ note:"3.6L 迷你主机塞独显,2024 年'OEM 里最认真做本地 AI 小盒子'的一款,获 CES 创新奖。"},
+{v:"Khadas", n:"Mind 2 / Mind 2S 便携主机", d:"2024 上市", c:"Intel Core Ultra 7 155H / 185H", m:"最高 32GB", model:"轻量本地推理(外接显卡坞形态)", form:"mini", region:"us", camp:"x86",
+ src:"https://www.khadas.com", st:"official",
+ note:"深圳厂商,磁吸外接 Mind Graphics 显卡坞可上 RTX 4090——盒子本体弱 AI,组合形态值得记录。"},
+
+/* ================= 国外 · 边界样本 ================= */
+{v:"Apple", n:"Mac Studio (M3 Ultra / M4 Max)", d:"2025.03 M4 Max 款 / 2025.06 M3 Ultra 款", c:"Apple M 系列芯片", m:"最高 512GB 统一内存", model:"社区实测本地跑 600B MoE 量化模型", form:"box", region:"us", camp:"apple",
+ src:"https://www.apple.com/mac-studio/", st:"official",
+ note:"【边界样本】苹果官方从不主打'端侧大模型盒子',但 512GB 统一内存 + MLX 社区让它成了事实上的本地 LLM 王者。收录以正视听。"},
+
+/* ================= 国内 · 超聚变系(用户点名) ================= */
+{v:"超聚变 xFusion", n:"FusionOne AI 大模型一体机", d:"2025.02 DeepSeek 版 / 2025.05 联合中科加禾 SigInfer 版", c:"多元算力底座(例:FusionServer G8600 + 8×H20)", m:"按配置", model:"DeepSeek 671B 满血版 / 512 并发;DeepSeek 全家桶 + QwQ-32B", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.xfusion.com/cn/news/fusiononeai-siginfer-deepseek-ai-integrated-machine", st:"official",
+ note:"'1 台起步按需扩展、东西方算力全兼容'。超聚变分离自华为 x86 服务器业务,一体机是它的 AI 门面。"},
+{v:"超聚变 xFusion", n:"FusionOne HCI AI 超融合训推一体机", d:"2024.08 获闪存峰会创新奖", c:"超聚变 HCI 超融合底座 + AI 加速卡", m:"按配置", model:"训推一体超融合形态", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.xfusion.com", st:"media",
+ note:"超融合(计算+存储+虚拟化)与 AI 训推打包,卖给不想分着买的企业。"},
+{v:"超聚变 xFusion", n:"FusionXpark 小盒子", d:"2026.05 探索者大会发布", c:"NVIDIA GB10 Grace Blackwell", m:"128GB 统一内存", model:"本地 200B 参数大模型", form:"box", region:"cn", camp:"nvidia",
+ src:"https://caijing.chinadaily.com.cn/a/202605/29/WS6a193383a310942cc49aef42.html", st:"media",
+ note:"书本大小的桌面 AI 计算机,FP4 1 PFLOP。超聚变硬件 + 昆仑元 GPT-Station 软件,面向创业者/小团队的'智能体主机'。"},
+{v:"河南昆仑技术", n:"KunLun AI DeepSeek 一体机", d:"2025.02.18 发布", c:"KunLun AI 服务器(昇腾生态兼容,鲲鹏系)", m:"按配置", model:"DeepSeek R1 / V3 满血生产级", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.163.com/dy/article/JOP1CIC205386WWT.html", st:"media",
+ note:"昆仑技术 × 中科加禾 SigInfer。2 节点起配、64 并发线性扩容,昇腾生态路线。AI 服务器型号 KunLun G5680 V2。"},
+{v:"昆仑元", n:"GPT-Station 智能体主机", d:"2026.05 探索者大会(与超聚变联合)", c:"超聚变 FusionXpark 硬件底座", m:"128GB", model:"GPT-Factory 平台 + 本地大模型", form:"box", region:"cn", camp:"nvidia",
+ src:"http://www.rmzxw.com.cn/c/2026-05-26/3921546.shtml", st:"media",
+ note:"昆仑元 GPT-Factory(KunlunKVS 调度内核 + MOSPORE 云管)预装版,软硬一体卖方案。"},
+
+/* ================= 国内 · 软通系(用户点名) ================= */
+{v:"软通动力(软通计算机)", n:"DeepSeek 大模型一体机", d:"2025.03.20 华为伙伴大会发布", c:"华为昇腾底座 + 预装天鹤 OS/天璇平台", m:"按配置", model:"DeepSeek 全系,产品家族覆盖企业到个人开发者", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.isoftstone.com/zh-cn/htmls/news/20250321/1902906763717722112.html", st:"official",
+ note:"软通是昇腾一体机解决方案授权伙伴(钻石级)。旗下同方/软通华方品牌,昇腾训推工作站到服务器全量支持。"},
+{v:"软通动力", n:"训推一体化平台(昇腾授权)", d:"2023.05.30 发布", c:"华为 Atlas 800 训推服务器", m:"按配置", model:"昇思 MindSpore 全栈 + 天璇 MaaS 2.0", form:"rack", region:"cn", camp:"ascend",
+ src:"https://www.prnasia.com/story/407015-1.shtml", st:"media",
+ note:"昇腾一体机解决方案伙伴授牌的首批。软通路线:'授权硬件平台 + 天璇 MaaS 软件层'。"},
+
+/* ================= 国内 · 华为 Atlas 边缘系列 ================= */
+{v:"华为", n:"Atlas 500 智能小站", d:"2018.10 发布", c:"昇腾 310 ×4", m:"16GB(机顶盒大小)", model:"16 路高清视频推理 / 边缘视觉模型", form:"edge", region:"cn", camp:"ascend",
+ src:"https://www.huawei.com/cn/news/2019/11/huawei-atlas-500-top10-edge-computing-solutions-2019-award", st:"official",
+ note:"16 TOPS INT8、-40℃~70℃ 无风扇、40W。国内边缘 AI 小站的祖师爷,2019 年获边缘计算十大方案。"},
+{v:"华为", n:"Atlas 500 A2 智能小站", d:"2023 上市(在售)", c:"昇腾 310 系列", m:"12GB", model:"20T 算力,边缘多路视频/轻量推理", form:"edge", region:"cn", camp:"ascend",
+ src:"https://e.huawei.com/cn/products/computing/ascend", st:"official",
+ note:"20T 算力 + 12GB 内存 + 8TB 本地存储选配,Atlas 500 迭代款,华为昇腾官网产品线在列。"},
+{v:"华为", n:"Atlas 500 Pro 智能边缘服务器 3000", d:"在售", c:"昇腾 AI 加速卡(满配 3 卡)", m:"按配置", model:"官方标称 384 路 1080P 实时分析", form:"edge", region:"cn", camp:"ascend",
+ src:"https://e.huawei.com/cn/products/computing/ascend", st:"official",
+ note:"2U 短机箱(深 475mm)进弱电间,园区/变电站/产线边缘主力。"},
+{v:"华为", n:"Atlas 800 AI 一体机", d:"2018 首发,持续迭代(A2 代在售)", c:"昇腾 910/310 系列", m:"按配置", model:"企业一站式 AI 平台(训练+推理)", form:"rack", region:"cn", camp:"ascend",
+ src:"https://www.huawei.com/cn/huaweitech/publication/81/atlas-computing-ai", st:"official",
+ note:"'2 小时开箱即用'的始祖,集群管理+任务调度预装。当下 A2 代(800T A2 训练 / 800I A2 推理)是政企智算标配。"},
+
+/* ================= 国内 · 昇腾生态 DeepSeek 一体机潮(2025.02) ================= */
+{v:"拓维信息", n:"昇腾大模型一体机", d:"2025.02 密集发布期", c:"昇腾算力", m:"按配置", model:"DeepSeek 全系列,覆盖政务/教育", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.sina.cn/news/detail/5138947308258640.html", st:"media",
+ note:"华为联合推出,昇腾生态里最积极的 ISV 之一。"},
+{v:"恒为科技", n:"昇腾 DeepSeek 一体机", d:"2025.02 起", c:"昇腾算力", m:"按配置", model:"DeepSeek,训推/推理两类形态", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.sina.cn/news/detail/5138947308258640.html", st:"media",
+ note:"主打'开箱即用 + 高并发低时延'。"},
+{v:"云从科技", n:"昇腾一体机", d:"2025.02 起", c:"昇腾算力", m:"按配置", model:"DeepSeek + 多模态", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.sina.cn/news/detail/5138947308258640.html", st:"media",
+ note:"首批昇腾一体机供应商,多模态见长。"},
+{v:"开普云", n:"端侧一体机", d:"2025.02 起", c:"鲲鹏 + 昇腾双引擎", m:"按配置", model:"R1 32B 蒸馏量化版(端侧)", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.sina.cn/news/detail/5138947308258640.html", st:"media",
+ note:'明确做"端侧"部署的昇腾一体机,32B 档。'},
+{v:"华胜天成", n:"智能客服一体机", d:"2025.02 起", c:"昇腾算力 + 华为 AICC 软件", m:"按配置", model:"客服场景大模型", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.sina.cn/news/detail/5138947308258640.html", st:"media",
+ note:"全栈国产智能客服一体,软硬打包。"},
+{v:"麒麟信安", n:"智算一体机", d:"2025.02 起", c:"鲲鹏 920 服务器 + 昇腾 AI 卡", m:"按配置", model:"内置 DeepSeek,主打高安全", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.sina.cn/news/detail/5138947308258640.html", st:"media",
+ note:"操作系统厂商下场做一体机,机密计算+国产 OS 是差异点。"},
+{v:"神州数码", n:"信创 AI 一体机", d:"2026.02 报道密集", c:"昇腾算力", m:"按配置", model:"企业级大模型私有化", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.ithome.com/", st:"media",
+ note:"昇腾生态分销龙头转方案商,信创+AI 打包。官方产品页待补。"},
+
+/* ================= 国内 · 云厂商/AI 公司一体机(IDC 报告口径) ================= */
+{v:"百度智能云", n:"百舸/千帆 DeepSeek 一体机", d:"2025.02 起", c:"昆仑芯 + 多元算力", m:"按配置", model:"DeepSeek 全系 + 文心生态", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://my.idc.com/getdoc.jsp?containerId=prCHC53414025", st:"media",
+ note:"IDC 一体机报告'云计算厂商'类别代表,千帆平台预装。"},
+{v:"深信服", n:"大模型一体机", d:"2025 起", c:"多元算力", m:"按配置", model:"企业私有大模型开箱", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://my.idc.com/getdoc.jsp?containerId=prCHC53414025", st:"media",
+ note:"安全厂商视角:大模型安全保险箱(机密计算保护运行环境)是差异点。"},
+{v:"商汤科技", n:"SenseCore 大模型一体机", d:"2025 起", c:"SenseCore 算力 + 多元", m:"按配置", model:"日日新生态 + DeepSeek", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://my.idc.com/getdoc.jsp?containerId=prCHC53414025", st:"media",
+ note:"大模型创企代表,软硬一体卖'模型+算力'。"},
+{v:"科大讯飞", n:"星火一体机", d:"2023 首发,持续迭代", c:"多元国产算力", m:"按配置", model:"星火大模型全系私有化", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.iflytek.com", st:"media",
+ note:"教育/医疗/办公场景最深的一体机玩家之一。"},
+{v:"广电运通", n:"GRG-WTIM001 旗舰一体机", d:"2024 发布", c:"昇腾算力", m:"按配置", model:"大模型私有化旗舰", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.grgbanking.com", st:"media",
+ note:"头豹报告列为旗舰代表,报道口径 500 万级售价——一体机市场的'爱马仕'。"},
+{v:"智谱 AI", n:"GLM 一体机", d:"2024 起", c:"多元国产算力", m:"按配置", model:"GLM 全系私有化", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.zhipuai.cn", st:"media",
+ note:"大模型公司里最积极卖软硬一体的之一,GLM 家族预装。"},
+{v:"ZStack", n:"AI 一体机", d:"2025 起", c:"多元算力", m:"按配置", model:"云平台 + 大模型一体", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.zstack.io", st:"media",
+ note:"IDC 报告收录,云基础设施厂商转 AI 一体机的代表。"},
+{v:"星环科技", n:"Sophon 一体机", d:"2024 起", c:"多元算力", m:"按配置", model:"大模型 + 数据分析一体", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.transwarp.io", st:"media",
+ note:"数据平台厂商视角的一体机。"},
+{v:"九章云极 DataCanvas", n:"大模型一体机", d:"2025 起", c:"多元算力", m:"按配置", model:"DataCanvas 平台预装", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.datacanvas.com", st:"media",
+ note:"IDC 报告收录的 AI 平台厂商。"},
+
+/* ================= 国内 · 服务器/基础设施 OEM ================= */
+{v:"浪潮信息", n:"EPAI 一体机", d:"2024 起迭代", c:"多元算力(含国产 NPU)", m:"按配置", model:"企业大模型训推私有", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.inspur.com", st:"media",
+ note:"服务器一哥的一体机线,渠道最广。"},
+{v:"新华三 H3C", n:"灵犀一体机", d:"2024 起", c:"多元算力", m:"按配置", model:"企业大模型私有", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.h3c.com", st:"media",
+ note:"头豹报告与 IDC 报告双收录。"},
+{v:"联想", n:"问天 AI 一体机", d:"2024 起", c:"多元算力", m:"按配置", model:"企业大模型私有", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.lenovo.com.cn", st:"media",
+ note:"国际 OEM 里国内政企一体机最勤的。"},
+{v:"曙光云", n:"全国产 DeepSeek 超融合一体机", d:"2025.02 发布", c:"国产算力全国产化", m:"按配置", model:"DeepSeek 全系", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.163.com/dy/article/JOP1CIC205386WWT.html", st:"media",
+ note:"'全国产'超融合路线,信创味最浓的一档。"},
+{v:"先进数通", n:"FusionOne AI 智能知识库一体机", d:"2025 联合超聚变", c:"超聚变 FusionOne 底座", m:"按配置", model:"DeepSeek + 私有知识库", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://emcreative.eastmoney.com/app_fortune/article/index.html?artCode=20250627074051636017240&postId=1564830550", st:"media",
+ note:"金融 ISV 联名款:超聚变硬件 + 先进数通金融知识库方案。"},
+{v:"曙光/海光系", n:"DCU 深算一体机", d:"持续在售", c:"海光 DCU", m:"按配置", model:"国产 GPGPU 大模型训推", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.sugon.com", st:"media",
+ note:"海光 DCU 路线代表,兼容 CUDA 生态是其卖点。"},
+{v:"摩尔线程", n:"夸娥 KUAE 一体机", d:"2024 起", c:"MTT S4000 等全功能 GPU", m:"按配置", model:"国产 GPU 大模型训推", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.mthreads.com", st:"media",
+ note:"国产消费/专业 GPU 转型算力一体机,'夸娥'取自愚公移山。"},
+{v:"燧原科技", n:"燧思/云燧一体机", d:"2025 上市辅导期持续出货", c:"燧原 S60 / 邃思系列", m:"按配置", model:"国产 AI 加速卡训推", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.caixin.com/2026-09-11/102483935.html", st:"media",
+ note:"燧原上市报道:累计出货 10 万卡,与联想/新华三/超聚变服务器适配——常作为这些 OEM 一体机的'芯'。"},
+{v:"寒武纪", n:"玄思 100/1000 智能加速卡一体机", d:"持续在售", c:"思元 590 等", m:"按配置", model:"国产 AI 芯片训推", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.cambricon.com", st:"media",
+ note:"国产 AI 芯片市值一哥,玄思系列随 OEM 伙伴整机出货。"},
+{v:"宝德 PowerLeader", n:"昇腾/多元算力一体机", d:"2023 起", c:"昇腾等多元", m:"按配置", model:"企业大模型私有", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://www.powerleader.com.cn", st:"media",
+ note:"昇腾生态 OEM,一体机跟随华为节奏出。"},
+
+/* ================= 国内 · 运营商云一体机 ================= */
+{v:"天翼云", n:"息壤 DeepSeek 一体机", d:"2025.02 起", c:"多元国产算力", m:"按配置", model:"DeepSeek 全系 + 息壤平台", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.ctyun.cn", st:"media",
+ note:"IDC 报告运营商类别代表,云网一体打包。"},
+{v:"联通数科", n:"元景 DeepSeek 一体机", d:"2025.02 起", c:"多元国产算力", m:"按配置", model:"DeepSeek + 元景 MaaS", form:"enterprise", region:"cn", camp:"cnp",
+ src:"https://www.cucloud.cn", st:"media",
+ note:"运营商系,MaaS 平台预装。"},
+
+/* ================= 国内 · 边缘/行业小站 ================= */
+{v:"云天励飞", n:"DeepEdge10 边缘盒子", d:"2024 起迭代", c:"自研 DeepEdge10 芯片", m:"按型号", model:"视觉-语言多模态边缘推理", form:"edge", region:"cn", camp:"cnp",
+ src:"https://www.intellif.com", st:"media",
+ note:'深圳 AI 芯片第一股,主打"算力积木"边缘小站。'},
+{v:"研华 Advantech", n:"MIC-7700 / AIR 系列边缘 AI 盒子", d:"持续在售", c:"Jetson Orin / 昇腾 Atlas 200I 可选", m:"按型号", model:"边缘视觉/轻量 LLM", form:"edge", region:"cn", camp:"nvidia",
+ src:"https://www.advantech.com.cn", st:"official",
+ note:"工控老大,边缘盒子双线(英伟达+昇腾)都吃。"},
+{v:"凌华 ADLINK", n:"DLAP 系列边缘 AI 平台", d:"持续在售", c:"Jetson 系列为主", m:"按型号", model:"工业边缘 AI 推理", form:"edge", region:"cn", camp:"nvidia",
+ src:"https://www.adlinktech.com", st:"official",
+ note:"台系工控,机器人/产线边缘主力供应商之一。"},
+
+/* ================= 待核区(弱信源,谨慎采信) ================= */
+{v:"中国移动", n:"AI 智能网关(算力盒子)", d:"2024.05 报道口径", c:"自研/合研", m:"未公布", model:"端侧小模型/网关场景", form:"edge", region:"cn", camp:"cnp",
+ src:"", st:"media",
+ note:"【待核】公开发布出处未找到,仅有企业内部资料口径。先占位,等公开来源。"},
+{v:"中国联通", n:'星格 AI 一体机', d:"2024.08 报道口径", c:"未公布", m:"未公布", model:"政企场景大模型", form:"enterprise", region:"cn", camp:"cnp",
+ src:"", st:"media",
+ note:"【待核】公开检索不到官方页, src 为空。等 xca 内部资料回填。"},
+];
+
+/* ============ 渲染 ============ */
+const state = {region:"all", form:"all", camp:"all"};
+
+function domainOf(url){ try{ return new URL(url).hostname.replace(/^www\./,""); }catch(e){ return ""; } }
+
+function card(d, i){
+  const srcHtml = d.src
+    ? `<a class="src ${d.st==="media"?"media":""}" href="${d.src}" target="_blank" rel="noopener">${d.st==="official"?"官方 ↗":"报道 ↗"}<span class="srcdomain">${domainOf(d.src)}</span></a>`
+    : `<span class="src media" style="color:var(--ink3)">出处待回填</span>`;
+  return `<article class="card" style="--camp:${CAMP_COLOR[d.camp]||"var(--ink3)"}">
+    <div class="chead"><span class="cvendor">${d.v}</span><span class="cnum">#${String(i+1).padStart(3,"0")}</span></div>
+    <h3 class="cname">${d.n}</h3>
+    <dl class="cspec">
+      <dt>发布</dt><dd class="hl">${d.d}</dd>
+      <dt>芯片</dt><dd>${d.c}</dd>
+      ${d.m && d.m!=="按配置" ? `<dt>内存</dt><dd>${d.m}</dd>` : ""}
+      <dt>可跑模型</dt><dd>${d.model}</dd>
+    </dl>
+    <div class="ctags">
+      <span class="tag form">${FORM_LABEL[d.form]}</span>
+      <span class="tag">${CAMP_LABEL[d.camp]}</span>
+      <span class="tag">${d.region==="cn"?"国内":"国外"}</span>
+    </div>
+    ${d.note ? `<p class="note">${d.note}</p>` : ""}
+    <div class="cfoot">${srcHtml}<span style="font-size:11px;color:${d.st==="official"?"var(--ok)":"var(--warn)"}">${d.st==="official"?"official":"media"}</span></div>
+  </article>`;
+}
+
+function render(){
+  const list = DATA.map((d,i)=>({d,i})).filter(({d}) =>
+    (state.region==="all"||d.region===state.region) &&
+    (state.form==="all"||d.form===state.form) &&
+    (state.camp==="all"||d.camp===state.camp));
+  const groups = [
+    {key:"nvidia",  title:"NVIDIA 官方盒子系列", sub:"GB10 / GB300 / Jetson / IGX —— 这轮桌面 AI 盒潮的源头"},
+    {key:"amd",     title:"AMD Strix Halo 迷你主机潮", sub:"Ryzen AI Max 395:128GB 统一内存,70B 模型的平民路线"},
+    {key:"apple",   title:"边界样本", sub:"官方没这么说,但全世界都这么用"},
+    {key:"xfusion", title:"超聚变系 / 昆仑系", sub:"FusionOne AI · FusionXpark · KunLun —— 用户点名,重点核查"},
+    {key:"isoft",   title:"软通系", sub:"昇腾授权伙伴,天璇 MaaS 软硬一体"},
+    {key:"atlas",   title:"华为 Atlas 边缘系列", sub:"从 2018 年 Atlas 500 开始的边缘小站祖师爷"},
+    {key:"ascend",  title:"昇腾生态一体机潮 · 2025.02 DeepSeek 时刻", sub:"拓维/恒为/云从/开普云……密集上新"},
+    {key:"cloud",   title:"云厂商 / AI 公司一体机", sub:"IDC 报告口径的云计算与大模型创企"},
+    {key:"oem",     title:"服务器 / 基础设施 OEM", sub:"浪潮/新华三/联想/曙光 + 国产芯片系"},
+    {key:"carrier", title:"运营商云一体机", sub:"天翼/联通数科"},
+    {key:"edgecn",  title:"边缘 / 行业小站", sub:"工控与垂直行业"},
+    {key:"pending", title:"待核区", sub:"弱信源,谨慎采信,等官方出处"},
+  ];
+  const match = d =>
+    d.st==="pending" ? false : true;
+  const pick = (g) => list.filter(({d}) => {
+    switch(g){
+      case "nvidia": return ["DGX Spark","DGX Station","Jetson AGX Thor","Jetson Orin Nano Super","IGX Orin"].includes(d.n);
+      case "amd": return d.camp==="amd";
+      case "apple": return d.camp==="apple";
+      case "xfusion": return d.v.includes("超聚变")||d.v.includes("昆仑技术")||d.v.includes("昆仑元");
+      case "isoft": return d.v.includes("软通");
+      case "atlas": return d.v==="华为";
+      case "ascend": return d.camp==="ascend" && !["华为","软通动力","软通动力(软通计算机)","宝德 PowerLeader"].includes(d.v) && d.st!=="pending";
+      case "cloud": return ["百度智能云","深信服","商汤科技","科大讯飞","广电运通","智谱 AI","ZStack","星环科技","九章云极 DataCanvas"].includes(d.v);
+      case "oem": return ["浪潮信息","新华三 H3C","联想","曙光云","先进数通","曙光/海光系","摩尔线程","燧原科技","寒武纪","宝德 PowerLeader","神州数码","Khadas"].includes(d.v);
+      case "carrier": return ["天翼云","联通数科"].includes(d.v);
+      case "edgecn": return ["云天励飞","研华 Advantech","凌华 ADLINK"].includes(d.v);
+      case "pending": return d.note.includes("【待核】");
+    }
+  });
+  let html = "";
+  for(const g of groups){
+    const items = pick(g.key);
+    if(!items.length) continue;
+    html += `<div class="group-h"><h2>${g.title}</h2><span class="sub">${items.length} 款 · ${g.sub}</span><span class="bar"></span></div><div class="grid">${items.map(({d,i})=>card(d,i)).join("")}</div>`;
+  }
+  document.getElementById("groups").innerHTML = html;
+  document.getElementById("empty").style.display = list.length?"none":"block";
+  document.getElementById("count").textContent = `显示 ${list.length} / ${DATA.length} 款`;
+}
+
+function bindFilter(id, key){
+  const box = document.getElementById(id);
+  box.addEventListener("click", e=>{
+    const b = e.target.closest(".chip"); if(!b) return;
+    box.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on");
+    state[key] = b.dataset.v;
+    render();
+  });
+}
+bindFilter("fRegion","region");
+bindFilter("fForm","form");
+bindFilter("fCamp","camp");
+
+/* 统计 */
+const vendors = new Set(DATA.map(d=>d.v));
+const officials = DATA.filter(d=>d.st==="official").length;
+document.getElementById("stats").innerHTML = `
+  <div class="stat"><div class="n">${DATA.length}</div><div class="l">收录款数</div></div>
+  <div class="stat"><div class="n">${vendors.size}</div><div class="l">厂商/品牌</div></div>
+  <div class="stat"><div class="n" style="color:var(--ok)">${officials}</div><div class="l">官方源核实</div></div>
+  <div class="stat"><div class="n" style="color:var(--warn)">${DATA.length-officials}</div><div class="l">媒体源待核</div></div>`;
+
+render();
+</script>
+</body>
+</html>
