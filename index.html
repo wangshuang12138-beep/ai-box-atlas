@@ -38,6 +38,44 @@
   .rulebox{margin-top:24px;padding:16px 20px;background:var(--panel);border-left:3px solid var(--cnp);border-radius:0 12px 12px 0;color:var(--ink2);font-size:14.5px;line-height:1.7;max-width:880px}
   .rulebox b{color:var(--ink)}
 
+  /* ===== memory guide ===== */
+  /* 设计参考: Stripe 定价页 compare 表 × Vercel 文档 callout — 克制、表格即正文 */
+  .memguide{margin-top:16px;max-width:1100px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .memguide>summary{list-style:none;cursor:pointer;padding:16px 22px;display:flex;align-items:baseline;gap:14px;user-select:none}
+  .memguide>summary::-webkit-details-marker{display:none}
+  .memguide>summary:hover{background:var(--panel2)}
+  .memguide>summary .mg-tag{font-size:12px;font-weight:700;color:var(--cnp);letter-spacing:.14em;white-space:nowrap}
+  .memguide>summary .mg-q{font-size:15.5px;font-weight:700;color:var(--ink)}
+  .memguide>summary .mg-a{font-size:13.5px;color:var(--ink3)}
+  .memguide>summary::after{content:"+";margin-left:auto;color:var(--ink3);font-size:18px;font-weight:400;flex:none}
+  .memguide[open]>summary::after{content:"–"}
+  .memguide[open]>summary{border-bottom:1px solid var(--line)}
+  .mg-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:20px}
+  .mg-cols{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .mg-col h4{font-size:13px;letter-spacing:.1em;color:var(--ink3);text-transform:uppercase;margin-bottom:12px;font-weight:700}
+  .mg-def{display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.65;color:var(--ink2)}
+  .mg-def .t{font-weight:700;color:var(--ink)}
+  .mg-def .d{margin-top:2px}
+  .bw{display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--ink2)}
+  .bw .row{display:grid;grid-template-columns:150px 1fr 92px;align-items:center;gap:10px}
+  .bw .bar{height:14px;border-radius:3px;background:var(--panel2);position:relative;overflow:hidden}
+  .bw .fill{position:absolute;inset:0 auto 0 0;border-radius:3px}
+  .bw .val{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .mg-table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  .mg-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:820px}
+  .mg-table th{background:var(--panel2);color:var(--ink3);font-weight:600;text-align:left;padding:10px 14px;font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+  .mg-table td{padding:10px 14px;border-top:1px solid var(--line);color:var(--ink2);vertical-align:top;line-height:1.55}
+  .mg-table td:first-child{color:var(--ink);font-weight:600;white-space:nowrap}
+  .mg-table tr.hl td{background:#f6f9ff}
+  .mg-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .mg-rule{background:var(--panel2);border-radius:10px;padding:14px 16px;font-size:13.5px;color:var(--ink2);line-height:1.65}
+  .mg-rule b{display:block;color:var(--ink);font-size:14px;margin-bottom:5px}
+  @media (max-width:900px){
+    .mg-cols{grid-template-columns:1fr}
+    .mg-rules{grid-template-columns:1fr}
+    .bw .row{grid-template-columns:110px 1fr 80px}
+  }
+
   /* ===== filters ===== */
   .filters{position:sticky;top:0;z-index:50;background:rgba(247,248,250,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:16px 0}
   .frow{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
@@ -95,6 +133,55 @@
   <p class="lede">市面上所有号称能<b>本地部署大模型</b>的整机盒子、一体机、边缘小站——从英伟达 DGX Spark 到超聚变 FusionXpark,从华为 Atlas 小站到昇腾生态的 DeepSeek 一体机潮,国内外能捞的都捞出来了。每条附<b>发布情况 + 来源链接</b>:<b>蓝色链接</b>=官方页核实,<b>琥珀色链接</b>=媒体报道待官方核实。</p>
   <div class="stats" id="stats"></div>
   <div class="rulebox"><b>收录口径:</b> ① 整机形态(非裸卡、非纯云服务) ② 厂商明确宣称可本地跑 LLM ③ 含企业一体机 / 桌面小盒 / 边缘小站 / 迷你主机,机架式单独标注。苹果 Mac Studio 等未官方主打本地大模型、但社区广泛充当本地 LLM 载体的列为<b>边界样本</b>。裸加速卡、纯 GPU 服务器(如 HGX 节点)不计入。</div>
+  <details class="memguide">
+    <summary>
+      <span class="mg-tag">内存速览</span>
+      <span class="mg-q">LPDDR5X / 统一内存 / HBM2e 是什么关系?</span>
+      <span class="mg-a">只写“128GB”的是哪种?展开 30 秒看懂 →</span>
+    </summary>
+    <div class="mg-body">
+      <div class="mg-cols">
+        <div class="mg-col">
+          <h4>两个维度,别混在一起</h4>
+          <div class="mg-def">
+            <div><span class="t">LPDDR5X / LPDDR5</span><div class="d"><b>内存类型</b> · 焊死在主板上的低功耗内存,手机同款。本页所有桌面盒 / 迷你主机用的都是它,买时定死、终身不可加。</div></div>
+            <div><span class="t">统一内存</span><div class="d"><b>架构方式</b> · 不是新类型:CPU 和 GPU 共享同一池内存,所以 GPU 可用容量 ≈ 总容量。前面写 LPDDR5X、后面挂“统一内存”是正常搭配,不矛盾。</div></div>
+            <div><span class="t">HBM2e</span><div class="d"><b>内存类型</b> · 和 GPU 封装在一起的数据中心显存,带宽约为 LPDDR5X 的 8 倍、贵一个量级。96G / 144G 是<b>显存</b>口径,不和系统内存直接比大小。</div></div>
+            <div><span class="t">DDR5</span><div class="d"><b>内存类型</b> · 传统可插拔内存,双通道带宽 ~90 GB/s,比 LPDDR5X 统一内存还慢,GPU 得另外配显存。</div></div>
+          </div>
+        </div>
+        <div class="mg-col">
+          <h4>带宽坐标 · 决定跑模型快慢</h4>
+          <div class="bw">
+            <div class="row"><span>DDR5 双通道</span><span class="bar"><span class="fill" style="width:4.5%;background:var(--x86)"></span></span><span class="val">~90</span></div>
+            <div class="row"><span>LPDDR5X 统一内存</span><span class="bar"><span class="fill" style="width:13.7%;background:var(--cnp)"></span></span><span class="val">256–273</span></div>
+            <div class="row"><span>M3 Ultra 统一内存</span><span class="bar"><span class="fill" style="width:41%;background:var(--apl)"></span></span><span class="val">819</span></div>
+            <div class="row"><span>HBM2e 显存</span><span class="bar"><span class="fill" style="width:100%;background:var(--asc)"></span></span><span class="val">~2000</span></div>
+          </div>
+          <div style="font-size:12.5px;color:var(--ink3);margin-top:10px">单位 GB/s · 推理 token/s 大致跟带宽走:同参数量下,HBM2e 机器出字速度约是桌面盒的 7–8 倍。</div>
+        </div>
+      </div>
+      <div class="mg-col">
+        <h4>本页容量档位地图 · 对照着卡片看</h4>
+        <div class="mg-table-wrap">
+          <table class="mg-table">
+            <tr><th>页面里的写法</th><th>实际是什么</th><th>本页代表</th><th>定位</th></tr>
+            <tr><td>8–16GB</td><td>焊死 LPDDR4X/5</td><td>Jetson Orin Nano Super · Atlas 500 系</td><td>边缘视觉 / 小模型推理</td></tr>
+            <tr><td>最高 32–64GB DDR5</td><td>可插拔 DDR5,GPU 另配显存</td><td>ThinkCentre Neo Ultra · Khadas Mind 2</td><td>x86 轻量推理 / 外接显卡坞</td></tr>
+            <tr class="hl"><td>64–128GB LPDDR5X</td><td>焊死 LPDDR5X-8000 · 统一内存</td><td>DGX Spark · Strix Halo 全系 · FusionXpark · GPT-Station</td><td><b>桌面大模型主力档</b>:70B 顺跑 · 200B 量化可跑</td></tr>
+            <tr><td>128GB LPDDR5</td><td>焊死 LPDDR5(Thor 平台)</td><td>Jetson AGX Thor</td><td>机器人 / 边缘多模态大模型</td></tr>
+            <tr><td>512–784GB 统一内存</td><td>焊死 LPDDR5X · 统一内存</td><td>Mac Studio M3 Ultra · DGX Station</td><td>工作站顶配:400–600B MoE 量化</td></tr>
+            <tr><td>96 / 144GB HBM2e</td><td>GPU 封装显存</td><td>真武 810E / M890</td><td>数据中心训推 · 带宽 ≈8× 但容量是显存口径</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="mg-rules">
+        <div class="mg-rule"><b>① 只写“128GB”没标类型?</b>看芯片:GB10 / Strix Halo / Apple M 平台全是焊死的 LPDDR5X 统一内存。本页 HP Z2 Mini、Dell Pro Max Micro、GPT-Station 三条已按芯片补全标注。</div>
+        <div class="mg-rule"><b>② “统一内存 / 最高”怎么读?</b>统一内存 = CPU+GPU 共享一池,GPU 可用 ≈ 总量;焊死不可后加,“最高 xxx”指配置上限,低配版更小。</div>
+        <div class="mg-rule"><b>③ HBM 数字小 ≠ 弱</b>96G/144G 是 GPU 显存,带宽 ~2 TB/s 是桌面盒的 8 倍。它和“系统内存 128GB”不是一回事,别直接比大小。</div>
+      </div>
+    </div>
+  </details>
 </div></header>
 
 <div class="filters"><div class="wrap">
@@ -174,16 +261,16 @@ const DATA = [
 {v:"GMKtec 极摩客", n:"EVO-X2", d:"2025.04 预售 / 2025.05 全球上市", c:"AMD Ryzen AI Max+ 395", m:"64/96/128GB LPDDR5X-8000", model:"官方演示本地跑 235B;70B 官方宣称", form:"mini", region:"us", camp:"amd",
  src:"https://www.gmktec.com", st:"official",
  note:"国内厂商出海。首发 ¥14,999(128GB+2TB),美国 $1,499–$1,999。LM Studio 实测宣传超 RTX 4090 2.2×,风扇噪音是主要槽点。"},
-{v:"HP", n:"Z2 Mini G1a 工作站", d:"2025 上市", c:"AMD Ryzen AI Max+ 395", m:"最高 128GB", model:"本地 AI 推理/轻量训练工作站", form:"mini", region:"us", camp:"amd",
+{v:"HP", n:"Z2 Mini G1a 工作站", d:"2025 上市", c:"AMD Ryzen AI Max+ 395", m:"最高 128GB LPDDR5X-8000", model:"本地 AI 推理/轻量训练工作站", form:"mini", region:"us", camp:"amd",
  src:"https://www.hp.com", st:"media",
  note:"Strix Halo 工作站化代表,一线 OEM 里最规范的迷你 AI 工作站之一。"},
-{v:"Dell", n:"Dell Pro Max Micro", d:"2025 上市", c:"AMD Ryzen AI Max 系列", m:"最高 128GB", model:"本地 AI 工作站定位", form:"mini", region:"us", camp:"amd",
+{v:"Dell", n:"Dell Pro Max Micro", d:"2025 上市", c:"AMD Ryzen AI Max 系列", m:"最高 128GB LPDDR5X", model:"本地 AI 工作站定位", form:"mini", region:"us", camp:"amd",
  src:"https://www.dell.com", st:"media",
  note:"戴尔小钢炮工作站线,Strix Halo 让 2.5L 机身有了工作站名号。"},
 {v:"Lenovo", n:"ThinkCentre Neo Ultra", d:"2024.01 发布", c:"Intel Core Ultra + NVIDIA RTX 4060 独显", m:"最高 64GB DDR5", model:"本地 LLM / AIGC 创作", form:"mini", region:"us", camp:"x86",
  src:"https://www.lenovo.com", st:"media",
  note:"3.6L 迷你主机塞独显,2024 年'OEM 里最认真做本地 AI 小盒子'的一款,获 CES 创新奖。"},
-{v:"Khadas", n:"Mind 2 / Mind 2S 便携主机", d:"2024 上市", c:"Intel Core Ultra 7 155H / 185H", m:"最高 32GB", model:"轻量本地推理(外接显卡坞形态)", form:"mini", region:"us", camp:"x86",
+{v:"Khadas", n:"Mind 2 / Mind 2S 便携主机", d:"2024 上市", c:"Intel Core Ultra 7 155H / 185H", m:"最高 32GB LPDDR5X", model:"轻量本地推理(外接显卡坞形态)", form:"mini", region:"us", camp:"x86",
  src:"https://www.khadas.com", st:"official",
  note:"深圳厂商,磁吸外接 Mind Graphics 显卡坞可上 RTX 4090——盒子本体弱 AI,组合形态值得记录。"},
 
@@ -205,7 +292,7 @@ const DATA = [
 {v:"河南昆仑技术", n:"KunLun AI DeepSeek 一体机", d:"2025.02.18 发布", c:"KunLun AI 服务器(昇腾生态兼容,鲲鹏系)", m:"按配置", model:"DeepSeek R1 / V3 满血生产级", form:"enterprise", region:"cn", camp:"cnp",
  src:"https://www.163.com/dy/article/JOP1CIC205386WWT.html", st:"media",
  note:"昆仑技术 × 中科加禾 SigInfer。2 节点起配、64 并发线性扩容,昇腾生态路线。AI 服务器型号 KunLun G5680 V2。"},
-{v:"昆仑元", n:"GPT-Station 智能体主机", d:"2026.05 探索者大会(与超聚变联合)", c:"超聚变 FusionXpark 硬件底座", m:"128GB", model:"GPT-Factory 平台 + 本地大模型", form:"box", region:"cn", camp:"nvidia",
+{v:"昆仑元", n:"GPT-Station 智能体主机", d:"2026.05 探索者大会(与超聚变联合)", c:"超聚变 FusionXpark 硬件底座", m:"128GB 统一内存", model:"GPT-Factory 平台 + 本地大模型", form:"box", region:"cn", camp:"nvidia",
  src:"http://www.rmzxw.com.cn/c/2026-05-26/3921546.shtml", st:"media",
  note:"昆仑元 GPT-Factory(KunlunKVS 调度内核 + MOSPORE 云管)预装版,软硬一体卖方案。"},
 
