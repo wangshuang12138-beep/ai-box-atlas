@@ -115,6 +115,29 @@
   .group-h .bar{flex:1;height:1px;background:var(--line)}
   .empty{padding:60px 0;text-align:center;color:var(--ink3);display:none}
 
+  /* ===== overview: 市场结构速览(2×2 面板 · 横向条形 · 参考 Atlas 300 系列对比卡版式) ===== */
+  .ov-head{display:flex;align-items:baseline;gap:14px;margin:8px 0 16px}
+  .ov-head h2{font-size:21px;font-weight:800;letter-spacing:-.015em}
+  .ov-head .sub{font-size:13px;color:var(--ink3)}
+  .ov-head .bar{flex:1;height:1px;background:var(--line)}
+  .ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .ov-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+  .ov-card h3{font-size:15px;font-weight:700;margin-bottom:14px;letter-spacing:.01em}
+  .ov-rows{display:flex;flex-direction:column;gap:9px}
+  .ov-row{display:grid;grid-template-columns:118px 1fr;align-items:center;gap:10px}
+  .ov-label{font-size:13px;color:var(--ink2);text-align:right;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ov-bar{height:20px;background:var(--panel2);border-radius:4px;position:relative;overflow:visible}
+  .ov-fill{height:100%;border-radius:4px;min-width:2px;position:relative}
+  .ov-val{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums}
+  .ov-val.out{right:auto;left:calc(100% + 6px);color:var(--ink2)}
+  .ov-val.in-weak{color:var(--ink2);font-weight:600}
+  .ov-stack{display:flex;height:20px;border-radius:4px;overflow:hidden}
+  .ov-stack .seg{display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;min-width:0}
+  .ov-note{margin-top:13px;padding:8px 12px;border-left:2px solid var(--line2);font-size:12.5px;color:var(--ink3);line-height:1.6}
+  .ov-legend{display:flex;gap:16px;margin:-4px 0 12px;font-size:12.5px;color:var(--ink3)}
+  .ov-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  @media (max-width:860px){.ov-grid{grid-template-columns:1fr}.ov-row{grid-template-columns:96px 1fr}}
+
   footer{border-top:1px solid var(--line);padding:30px 0 52px;color:var(--ink3);font-size:13.5px}
   footer p{margin-bottom:8px;max-width:900px;line-height:1.7}
   footer b{color:var(--ink2)}
@@ -216,6 +239,15 @@
 </div></div>
 
 <main><div class="wrap">
+  <section class="ov" aria-label="市场结构速览">
+    <div class="ov-head"><h2>市场结构速览</h2><span class="sub">全量 57 款 · 不随上方筛选变化</span><span class="bar"></span></div>
+    <div class="ov-grid">
+      <div class="ov-card"><h3>芯片阵营分布（款数）</h3><div class="ov-rows" id="ovCamp"></div><p class="ov-note" id="ovCampNote"></p></div>
+      <div class="ov-card"><h3>形态 × 地区（款数）</h3><div class="ov-legend"><span><i style="background:var(--cnp)"></i>国内</span><span><i style="background:var(--ink3)"></i>国外</span></div><div class="ov-rows" id="ovForm"></div><p class="ov-note" id="ovFormNote"></p></div>
+      <div class="ov-card"><h3>来源可信度（款数）</h3><div class="ov-rows" id="ovSrc"></div><p class="ov-note" id="ovSrcNote"></p></div>
+      <div class="ov-card"><h3>首发年份分布（款数）</h3><div class="ov-rows" id="ovYear"></div><p class="ov-note" id="ovYearNote"></p></div>
+    </div>
+  </section>
   <div id="groups"></div>
   <div class="empty" id="empty">没有符合筛选条件的条目 — 换个组合试试</div>
 </div></main>
@@ -433,6 +465,66 @@ const DATA = [
  note:"【待核】公开检索不到官方页, src 为空。等 xca 内部资料回填。"},
 ];
 
+/* ============ 市场结构速览(静态统计,不随筛选变化) ============ */
+function ovBar(label, val, max, color, opt){
+  opt = opt || {};
+  const pct = Math.max(val / max * 100, val > 0 ? 2 : 0);
+  const inside = pct >= 20;
+  return `<div class="ov-row" title="${label}${opt.titleSuffix || ""} ${val} 款">
+    <span class="ov-label">${label}</span>
+    <div class="ov-bar"><div class="ov-fill" style="width:${pct}%;background:${color}">${inside ? `<span class="ov-val">${val}</span>` : ""}</div>${!inside ? `<span class="ov-val out">${val}</span>` : ""}</div>
+  </div>`;
+}
+function renderOverview(){
+  const total = DATA.length;
+
+  /* 1 阵营 */
+  const campOrder = [["cnp","国产 NPU"],["ascend","昇腾"],["nvidia","NVIDIA"],["amd","AMD"],["x86","x86+GPU"],["apple","Apple"]];
+  const campCount = {}; DATA.forEach(d => campCount[d.camp] = (campCount[d.camp] || 0) + 1);
+  const campMax = Math.max(...Object.values(campCount));
+  document.getElementById("ovCamp").innerHTML = campOrder.map(([k, label]) => ovBar(label, campCount[k] || 0, campMax, CAMP_COLOR[k])).join("");
+  const domestic = (campCount["cnp"] || 0) + (campCount["ascend"] || 0);
+  document.getElementById("ovCampNote").textContent = `国产路线(国产 NPU + 昇腾)共 ${domestic} 款,占全量 ${Math.round(domestic / total * 100)}%——按款数已是多数派。昇腾含华为官方 4 款 + 生态伙伴 ${campCount["ascend"] - 4} 款;“国产 NPU”含超聚变/昆仑、云厂商、OEM 与自研芯片系。`;
+
+  /* 2 形态 × 地区 · 堆叠 */
+  const FORM_ORDER = [["enterprise","企业一体机"],["edge","边缘小站"],["mini","迷你主机"],["box","桌面小盒"],["rack","机架/服务器"]];
+  const fr = {}; DATA.forEach(d => { const k = d.form; fr[k] = fr[k] || {cn: 0, us: 0}; fr[k][d.region === "cn" ? "cn" : "us"]++; });
+  document.getElementById("ovForm").innerHTML = FORM_ORDER.map(([k, label]) => {
+    const {cn, us} = fr[k] || {cn: 0, us: 0};
+    const t = cn + us; if(!t) return "";
+    const cnPct = cn / t * 100, usPct = us / t * 100;
+    return `<div class="ov-row" title="${label}:国内 ${cn} / 国外 ${us}">
+      <span class="ov-label">${label} · ${t}</span>
+      <div class="ov-stack">
+        <span class="seg" style="width:${cnPct}%;background:var(--cnp);font-size:${cnPct < 14 ? 0 : 12}px">${cn || ""}</span>
+        <span class="seg" style="width:${usPct}%;background:var(--ink3);font-size:${usPct < 14 ? 0 : 12}px">${us || ""}</span>
+      </div>
+    </div>`;
+  }).join("");
+  const usTotal = DATA.filter(d => d.region === "us").length;
+  const cnEnt = fr["enterprise"] ? fr["enterprise"].cn : 0;
+  const cnTotal = DATA.filter(d => d.region === "cn").length;
+  document.getElementById("ovFormNote").textContent = `国外 ${usTotal} 款无一企业一体机——海外这条路线的想象力全在“个人/开发者装备”;国内企业一体机 ${cnEnt} 款,占国内盘 ${Math.round(cnEnt / cnTotal * 100)}%。同一个“一体机”,中外是两种生意。`;
+
+  /* 3 来源 */
+  const stCount = {}; DATA.forEach(d => stCount[d.st] = (stCount[d.st] || 0) + 1);
+  const stMax = Math.max(...Object.values(stCount));
+  document.getElementById("ovSrc").innerHTML =
+    ovBar("官方页核实", stCount["official"] || 0, stMax, "var(--ok)") +
+    ovBar("媒体报道待核", stCount["media"] || 0, stMax, "var(--warn)");
+  document.getElementById("ovSrcNote").textContent = `能查到官方产品页的不到 ${Math.round((stCount["official"] || 0) / total * 100)}%。media ≠ 造假,但“只有发布会、没有产品页”的类型,交付能力存疑——采购前必须实测,这也是本图鉴坚持双标的原因。`;
+
+  /* 4 首发年份 */
+  const yc = {}; DATA.forEach(d => { const m = d.d.match(/(20\d\d)/); const y = m ? m[1] : "未标注"; yc[y] = (yc[y] || 0) + 1; });
+  const yMax = Math.max(...Object.values(yc));
+  const yOrder = Object.keys(yc).sort((a, b) => a < b ? -1 : 1);
+  document.getElementById("ovYear").innerHTML = yOrder.map(y =>
+    ovBar(y === "未标注" ? "未标注首发年" : y + (y === "2025" ? " ◀ DeepSeek 时刻" : ""), yc[y], yMax, y === "未标注" ? "var(--ink3)" : "var(--cnp)")
+  ).join("");
+  const pre2025 = yOrder.filter(y => /^20/.test(y) && y < "2025").reduce((s, y) => s + yc[y], 0);
+  document.getElementById("ovYearNote").textContent = `按各条“发布”字段首个年份归集;“持续在售/在售”未标首发年的 ${yc["未标注"] || 0} 款不计。2025 年首发 ${yc["2025"] || 0} 款 ≈ 此前 7 年总和(${pre2025} 款)的 ${((yc["2025"] || 0) / pre2025).toFixed(1)} 倍——2025.02 DeepSeek 开源是直接引信。`;
+}
+
 /* ============ 渲染 ============ */
 const state = {region:"all", form:"all", camp:"all"};
 
@@ -532,6 +624,7 @@ document.getElementById("stats").innerHTML = `
   <div class="stat"><div class="n" style="color:var(--ok)">${officials}</div><div class="l">官方源核实</div></div>
   <div class="stat"><div class="n" style="color:var(--warn)">${DATA.length-officials}</div><div class="l">媒体源待核</div></div>`;
 
+renderOverview();
 render();
 </script>
 </body>
