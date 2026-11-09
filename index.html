@@ -52,7 +52,7 @@
   .tl-head h2{font-size:21px;font-weight:800;letter-spacing:-.015em}
   .tl-head .sub{font-size:13px;color:var(--ink3)}
   .tl-head .bar{flex:1;height:1px;background:var(--line)}
-  .tl-track{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;position:relative;padding-top:2px}
+  .tl-track{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;position:relative;padding-top:2px}
   .tl-track::before{content:"";position:absolute;top:8px;left:10px;right:10px;height:2px;background:var(--line2)}
   .tl-node{position:relative;padding-top:24px;min-width:0}
   .tl-node::before{content:"";position:absolute;top:1px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--c,var(--ink3));box-shadow:0 0 0 3px var(--bg),0 0 0 4px var(--line2)}
@@ -185,11 +185,7 @@
   <div class="eyebrow">Edge AI Appliance Atlas · 数据快照 2026-11-08</div>
   <h1>端侧 AI 一体机图鉴<span class="accent">.</span></h1>
   <p class="lede">市面上所有号称能<b>本地部署大模型</b>的整机盒子、一体机、边缘小站——从英伟达 DGX Spark 到超聚变 FusionXpark,从华为 Atlas 小站到昇腾生态的 DeepSeek 一体机潮,国内外能捞的都捞出来了。每条附<b>发布情况 + 来源链接</b>:<b>蓝色链接</b>=官方页核实,<b>琥珀色链接</b>=媒体报道待官方核实。</p>
-  <div class="takeaways" aria-label="三句话结论">
-    <div class="tk"><span class="no">01</span><span><span class="tt">这不是产品清单,是算力入口之争。</span><span class="tx">盒子是云数据中心之外的第二条算力部署路线——争的是谁的硬件先进办公室和机房。</span></span></div>
-    <div class="tk"><span class="no">02</span><span><span class="tt">国产已是多数派,但多数派还站在发布会上。</span><span class="tx">57 款里昇腾 + 国产 NPU 占 72%;可查官方产品页的不到 3 成——量是国产的,信任还是进口的。</span></span></div>
-    <div class="tk"><span class="no">03</span><span><span class="tt">2025.02 是物种突变点。</span><span class="tx">DeepSeek 开源引爆"满血私有化",一年新品 ≈ 此前 7 年总和的 1.3 倍,边缘小站集体改跑大模型。</span></span></div>
-  </div>
+  <div class="takeaways" id="takeaways" aria-label="三句话结论"></div>
   <div class="stats" id="stats"></div>
   <div class="rulebox"><b>收录口径:</b> ① 整机形态(非裸卡、非纯云服务) ② 厂商明确宣称可本地跑 LLM ③ 含企业一体机 / 桌面小盒 / 边缘小站 / 迷你主机,机架式单独标注。苹果 Mac Studio 等未官方主打本地大模型、但社区广泛充当本地 LLM 载体的列为<b>边界样本</b>。裸加速卡、纯 GPU 服务器(如 HGX 节点)不计入。</div>
   <details class="memguide">
@@ -276,7 +272,7 @@
 
 <main><div class="wrap">
   <section class="tl" aria-label="品类演化时间线">
-    <div class="tl-head"><h2>一条时间线 · 品类演化六拍</h2><span class="sub">2018 边缘视觉起源 → 2025 物种突变 → 2026 私有化战争</span><span class="bar"></span></div>
+    <div class="tl-head"><h2>一条时间线 · 品类演化七拍</h2><span class="sub">2018 边缘视觉起源 → 2025 物种突变 → 2026 国产算力正面开战</span><span class="bar"></span></div>
     <div class="tl-track">
       <div class="tl-node" style="--c:var(--asc)"><div class="tl-year">2018.10</div><div class="tl-ev">华为 Atlas 500</div><div class="tl-sp">16GB 边缘视觉小站,这个物种的祖师爷</div></div>
       <div class="tl-node" style="--c:var(--nv)"><div class="tl-year">2024.12</div><div class="tl-ev">Orin Nano Super</div><div class="tl-sp">$249 教育爆品,AI 盒子第一次出圈</div></div>
@@ -284,10 +280,11 @@
       <div class="tl-node" style="--c:var(--nv)"><div class="tl-year">2025.03</div><div class="tl-ev">DGX Spark</div><div class="tl-sp">$3,999 定义"桌面大模型工作站",七家 OEM 跟货</div></div>
       <div class="tl-node" style="--c:var(--amd)"><div class="tl-year">2025.09</div><div class="tl-ev">Framework Desktop</div><div class="tl-sp">Strix Halo $1,999,128GB 平民路线成型</div></div>
       <div class="tl-node" style="--c:var(--cnp)"><div class="tl-year">2026.01</div><div class="tl-ev">真武 810E</div><div class="tl-sp">国产 PPU 私有化外销,报价比 H20 低 32%</div></div>
+      <div class="tl-node" style="--c:var(--asc)"><div class="tl-year">2026.03</div><div class="tl-ev">昇腾 950PR 商用</div><div class="tl-sp">Atlas 350 自研 HBM 上车,单卡 2.87× H20,7 家伙伴出整机</div></div>
     </div>
   </section>
   <section class="ov" aria-label="市场结构速览">
-    <div class="ov-head"><h2>市场结构速览</h2><span class="sub">全量 57 款 · 不随上方筛选变化</span><span class="bar"></span></div>
+    <div class="ov-head"><h2>市场结构速览</h2><span class="sub" id="ovTotal"></span><span class="bar"></span></div>
     <div class="ov-grid">
       <div class="ov-card"><h3>芯片阵营分布（款数）</h3><div class="ov-rows" id="ovCamp"></div><p class="ov-note" id="ovCampNote"></p></div>
       <div class="ov-card"><h3>形态 × 地区（款数）</h3><div class="ov-legend"><span><i style="background:var(--cnp)"></i>国内</span><span><i style="background:var(--ink3)"></i>国外</span></div><div class="ov-rows" id="ovForm"></div><p class="ov-note" id="ovFormNote"></p></div>
@@ -396,6 +393,12 @@ const DATA = [
 {v:"华为", n:"Atlas 800 AI 一体机", d:"2018 首发,持续迭代(A2 代在售)", c:"昇腾 910/310 系列", m:"按配置", model:"企业一站式 AI 平台(训练+推理)", form:"rack", region:"cn", camp:"ascend",
  src:"https://www.huawei.com/cn/huaweitech/publication/81/atlas-computing-ai", st:"official",
  note:"'2 小时开箱即用'的始祖,集群管理+任务调度预装。当下 A2 代(800T A2 训练 / 800I A2 推理)是政企智算标配。"},
+{v:"华为", n:"Atlas 950 SuperPoD 超节点", d:"2025.09 发布 / 2026 Q4 全球供货", c:"昇腾 950DT ×8192(单柜 64 卡单元)", m:"单卡 144GB 自研 HBM HiZQ 2.0 · 整机带宽 16.3PB/s", model:"万亿参数级训练 / 海量高并发推理", form:"rack", region:"cn", camp:"ascend",
+ src:"https://www.huawei.com/cn/news/2026/7/atlas-950-superpod", st:"official",
+ note:"昇腾路线图旗舰:灵衢2.0全对等互联,FP8 8 EFLOPS / FP4 16 EFLOPS。2026.07 WAIC 1024 卡真机亮相;昇腾超节点累计部署 1000+ 套、370+ 客户,运营商是其落地行业之一。DeepSeek V4(2026.04)已全面适配。同代 TaiShan 950 通用计算超节点(GaussDB)剑指大型机替代;950DT 报道口径价格超 25 万/卡(未官方确认)。"},
+{v:"软通华方", n:"超强 A860 A5(昇腾950PR 整机)", d:"2026.03 华为伙伴大会发布", c:"鲲鹏920 + 8×Atlas 350(昇腾950PR)", m:"8×112GB 自研 HBM", model:"大模型训推 / AI 加速计算 / 视频分析", form:"enterprise", region:"cn", camp:"ascend",
+ src:"https://tech.cnr.cn/gstj/20260322/t20260322_527559080.shtml", st:"media",
+ note:"昇腾 950 代际首个商用整机形态:Atlas 350 单卡 FP4 1.56P(华为口径 2.87× H20)、600W、国内唯一 FP4 推理。同期昆仑/华鲲振宇/神州鲲泰/长江计算/宝德/百信 6 家伙伴同步发布整机。华为口径:昇腾系行业一体机累计 400+ 款、占国内一体机市场 80%+(2026.03 伙伴大会)。"},
 
 /* ================= 国内 · 昇腾生态 DeepSeek 一体机潮(2025.02) ================= */
 {v:"拓维信息", n:"昇腾大模型一体机", d:"2025.02 密集发布期", c:"昇腾算力", m:"按配置", model:"DeepSeek 全系列,覆盖政务/教育", form:"enterprise", region:"cn", camp:"ascend",
@@ -511,6 +514,21 @@ const DATA = [
  src:"", st:"media",
  note:"【待核】公开检索不到官方页, src 为空。等 xca 内部资料回填。"},
 ];
+
+/* ============ 三句话结论(动态) ============ */
+function renderTakeaways(){
+  const total = DATA.length;
+  const domestic = DATA.filter(d => d.camp === "cnp" || d.camp === "ascend").length;
+  const dpct = Math.round(domestic / total * 100);
+  const official = DATA.filter(d => d.st === "official").length;
+  const opct = Math.round(official / total * 100);
+  document.getElementById("takeaways").innerHTML = `
+    <div class="tk"><span class="no">01</span><span><span class="tt">这不是产品清单,是算力入口之争。</span><span class="tx">盒子是云数据中心之外的第二条算力部署路线——争的是谁的硬件先进办公室和机房。</span></span></div>
+    <div class="tk"><span class="no">02</span><span><span class="tt">国产已是多数派,但多数派还站在发布会上。</span><span class="tx">全量 ${total} 款里昇腾 + 国产 NPU 占 ${dpct}%;可查官方产品页的仅 ${opct}%——量是国产的,信任还是进口的。</span></span></div>
+    <div class="tk"><span class="no">03</span><span><span class="tt">2025.02 是物种突变点。</span><span class="tx">DeepSeek 开源引爆"满血私有化",一年新品 ≈ 此前 7 年总和的 1.3 倍,边缘小站集体改跑大模型。</span></span></div>`;
+  const ovTotal = document.getElementById("ovTotal");
+  if(ovTotal) ovTotal.textContent = `全量 ${total} 款 · 不随上方筛选变化`;
+}
 
 /* ============ 市场结构速览(静态统计,不随筛选变化) ============ */
 function ovBar(label, val, max, color, opt){
@@ -671,6 +689,7 @@ document.getElementById("stats").innerHTML = `
   <div class="stat"><div class="n" style="color:var(--ok)">${officials}</div><div class="l">官方源核实</div></div>
   <div class="stat"><div class="n" style="color:var(--warn)">${DATA.length-officials}</div><div class="l">媒体源待核</div></div>`;
 
+renderTakeaways();
 renderOverview();
 render();
 </script>
