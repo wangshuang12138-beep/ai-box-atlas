@@ -169,6 +169,87 @@
   .ov-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
   @media (max-width:860px){.ov-grid{grid-template-columns:1fr}.ov-row{grid-template-columns:96px 1fr}}
 
+  /* ===== P0-1 档位徽章 ===== */
+  .cname-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .cname-row h3{flex:1}
+  .tier{flex:none;font-size:12px;font-weight:800;padding:5px 11px;border-radius:8px;letter-spacing:.02em;white-space:nowrap;line-height:1.3;text-align:center}
+  .tier small{display:block;font-size:10px;font-weight:600;opacity:.75;letter-spacing:0}
+  .tier.t1{background:#eaf1fe;color:#1d4ed8}
+  .tier.t2{background:#dbe7fd;color:#1e40af}
+  .tier.t3{background:#bcd3fb;color:#1e3a8a}
+  .tier.t4{background:#5e8df5;color:#fff}
+  .tier.t4 small{opacity:.85}
+  .tier.t5{background:#1d4ed8;color:#fff}
+  .tier.t5 small{opacity:.85}
+  .tier.tc{background:#eef0f4;color:#8b94a3}
+  .tier .bpm{font-weight:900}
+
+  /* ===== P0-2 价格 ===== */
+  .pricebox{text-align:right;flex:none}
+  .price{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.15;white-space:nowrap}
+  .price-k{font-size:10.5px;color:var(--ink3);margin-top:2px}
+  .pricebox.na .price{font-size:14px;font-weight:700;color:var(--ink3);letter-spacing:0}
+  .price-note{margin:0 0 2px;padding:9px 14px;background:#f6f9ff;border:1px solid var(--line);border-left:3px solid var(--cnp);border-radius:0 10px 10px 0;font-size:13px;color:var(--ink2);line-height:1.6}
+
+  /* ===== P0-3 人话定位 ===== */
+  .who{font-size:13.5px;color:var(--cnp);font-weight:600;line-height:1.5;padding:7px 12px;background:#f6f9ff;border-radius:8px}
+
+  /* ===== P0-5 换算 ===== */
+  .conv{font-size:12.5px;color:var(--ink3);line-height:1.6;border-top:1px dashed var(--line);padding-top:9px}
+  .conv b{color:var(--ink2);font-weight:600}
+
+  /* ===== P0-4 三问选机 ===== */
+  .picker{padding:34px 0 8px}
+  .pk-tag{font-size:12.5px;letter-spacing:.14em;color:var(--cnp);font-weight:800;margin-bottom:8px}
+  .picker h2{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.015em}
+  .pk-sub{color:var(--ink2);font-size:14px;margin:6px 0 18px}
+  .pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+  .pk-q .pq{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:9px}
+  .pk-q .pq i{font-style:normal;color:var(--cnp);margin-right:6px;font-family:var(--mono)}
+  .pk-opts{display:flex;flex-wrap:wrap;gap:7px}
+  .pk-o{border:1px solid var(--line2);background:var(--bg);color:var(--ink2);font-size:12.5px;padding:6px 13px;border-radius:99px;cursor:pointer;transition:all .15s;font-family:inherit}
+  .pk-o:hover{border-color:var(--ink3)}
+  .pk-o.on{background:var(--cnp);color:#fff;border-color:var(--cnp);font-weight:700}
+  .pk-res{margin-top:16px}
+  .pk-hint{font-size:13px;color:var(--warn);background:#fdf8ef;border:1px solid #f0e3c8;border-radius:9px;padding:9px 13px;margin-bottom:12px;line-height:1.6}
+  .pk-hint:empty{display:none}
+  @media (max-width:860px){.pk-grid{grid-template-columns:1fr}}
+
+  @media (max-width:520px){
+    .pricebox .price{font-size:19px}
+    .pricebox.na .price{font-size:13px}
+  }
+
+  /* ===== P1-1 排序 & 对比 ===== */
+  .cmp-bar{position:fixed;left:0;right:0;bottom:0;z-index:80;background:var(--panel);border-top:1px solid var(--line2);box-shadow:0 -4px 20px rgba(16,20,24,.08);display:none}
+  .cmp-bar.on{display:block}
+  .cmp-in{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .cmp-in .ct{font-size:13.5px;font-weight:700}
+  .cmp-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+  .cmp-chip{font-size:12.5px;background:var(--panel2);border:1px solid var(--line2);border-radius:99px;padding:5px 8px 5px 12px;display:inline-flex;align-items:center;gap:7px}
+  .cmp-chip button{border:0;background:none;cursor:pointer;color:var(--ink3);font-size:13px;padding:0 2px;font-family:inherit}
+  .cmp-chip button:hover{color:var(--ink)}
+  .cmp-go{border:0;background:var(--ink);color:#fff;font-size:13px;font-weight:700;padding:8px 18px;border-radius:99px;cursor:pointer;font-family:inherit}
+  .cmp-go:disabled{opacity:.35;cursor:default}
+  .cmp-clear{border:0;background:none;color:var(--ink3);font-size:12.5px;cursor:pointer;font-family:inherit;text-decoration:underline}
+  .cmp-panel{position:fixed;inset:5% 50% auto 50%;transform:translateX(-50%);width:min(860px,94vw);max-height:86vh;overflow:auto;background:var(--panel);border:1px solid var(--line2);border-radius:16px;box-shadow:0 24px 60px rgba(16,20,24,.22);z-index:90;display:none;padding:26px 28px}
+  .cmp-panel.on{display:block}
+  .cmp-panel h3{font-size:19px;font-weight:800;margin-bottom:4px}
+  .cmp-panel .cp-sub{font-size:12.5px;color:var(--ink3);margin-bottom:16px}
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13px}
+  .cmp-table th{background:var(--panel2);color:var(--ink3);font-weight:600;text-align:left;padding:9px 12px;font-size:12px;white-space:nowrap}
+  .cmp-table td{padding:10px 12px;border-top:1px solid var(--line);color:var(--ink2);vertical-align:top;line-height:1.5}
+  .cmp-table td:first-child{color:var(--ink);font-weight:700;white-space:nowrap}
+  .cmp-verdict{margin-top:16px;padding:13px 16px;background:#f6f9ff;border:1px solid var(--line);border-left:3px solid var(--cnp);border-radius:0 10px 10px 0;font-size:13.5px;color:var(--ink2);line-height:1.7}
+  .cmp-verdict b{color:var(--ink)}
+  .cmp-close{position:absolute;top:14px;right:16px;border:0;background:none;font-size:20px;color:var(--ink3);cursor:pointer;font-family:inherit}
+  .ckbox{width:15px;height:15px;accent-color:var(--cnp);cursor:pointer;flex:none}
+
+  /* ===== P1-2 可信度翻译 ===== */
+  .sttxt{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+  .sttxt.off{background:#eaf1fe;color:#1d4ed8}
+  .sttxt.med{background:#fdf3e4;color:var(--warn)}
+
   footer{border-top:1px solid var(--line);padding:30px 0 52px;color:var(--ink3);font-size:13.5px}
   footer p{margin-bottom:8px;max-width:900px;line-height:1.7}
   footer b{color:var(--ink2)}
@@ -239,6 +320,45 @@
   </details>
 </div></header>
 
+<section class="picker" id="picker" aria-label="三问选机"><div class="wrap">
+    <div class="pk-tag">3-QUESTION PICKER · 不懂硬件也能选</div>
+    <h2>三问选机：30 秒缩小到 3 款</h2>
+    <p class="pk-sub">不用懂芯片。回答三个问题，剩下的交给筛选。</p>
+    <div class="pk-grid">
+      <div class="pk-q" id="pkBudget">
+        <div class="pq"><i>Q1</i>预算多少？</div>
+        <div class="pk-opts">
+          <button class="pk-o on" data-v="any">不确定</button>
+          <button class="pk-o" data-v="lt5">5 万内</button>
+          <button class="pk-o" data-v="mid">10–50 万</button>
+          <button class="pk-o" data-v="gt100">100 万以上</button>
+        </div>
+      </div>
+      <div class="pk-q" id="pkPlace">
+        <div class="pq"><i>Q2</i>放哪？</div>
+        <div class="pk-opts">
+          <button class="pk-o on" data-v="any">都行</button>
+          <button class="pk-o" data-v="desk">桌上</button>
+          <button class="pk-o" data-v="closet">弱电间</button>
+          <button class="pk-o" data-v="room">机房</button>
+        </div>
+      </div>
+      <div class="pk-q" id="pkUsers">
+        <div class="pq"><i>Q3</i>几个人用？</div>
+        <div class="pk-opts">
+          <button class="pk-o on" data-v="any">都行</button>
+          <button class="pk-o" data-v="one">1 人</button>
+          <button class="pk-o" data-v="team">5–20 人</button>
+          <button class="pk-o" data-v="all">全公司</button>
+        </div>
+      </div>
+    </div>
+    <div class="pk-res">
+      <div class="pk-hint" id="pkHint"></div>
+      <div class="grid" id="pkGrid"></div>
+    </div>
+  </section></div></section>
+
 <div class="filters"><div class="wrap">
   <div class="frow">
     <div class="fgroup" id="fRegion">
@@ -266,11 +386,24 @@
       <button class="chip" data-v="x86"><span class="dot" style="background:var(--x86)"></span>x86+GPU</button>
       <button class="chip" data-v="apple"><span class="dot" style="background:var(--apl)"></span>Apple</button>
     </div>
+    <div class="fgroup" id="fSort">
+      <span class="fl">排序</span>
+      <button class="chip on" data-v="default">默认</button>
+      <button class="chip" data-v="tier">容量档位</button>
+      <button class="chip" data-v="year">首发年份</button>
+      <button class="chip" data-v="st">可信度</button>
+    </div>
     <span id="count"></span>
   </div>
 </div></div>
 
 <main><div class="wrap">
+  
+  <section class="js-sec" aria-label="先懂行业">
+    <div class="group-h" style="margin-top:36px"><h2>先懂行业，再看货</h2><span class="sub">三个判断 + 内存科普 · 对"想懂"的人是干货，对"想买"的人是噪音——所以放这</span><span class="bar"></span></div>
+    <div id="judgement-body"></div>
+  </section>
+  <p class="price-note" style="margin-top:26px"><b>价格说明：</b>本页 52 款未公开报价——企业级一体机普遍不对外标价，不是本页偷懒；有价的 7 款为公开零售/报道口径。</p>
   <section class="tl" aria-label="品类演化时间线">
     <div class="tl-head"><h2>一条时间线 · 品类演化七拍</h2><span class="sub">2018 边缘视觉起源 → 2025 物种突变 → 2026 国产算力正面开战</span><span class="bar"></span></div>
     <div class="tl-track">
@@ -515,6 +648,136 @@ const DATA = [
  note:"【待核】公开检索不到官方页, src 为空。等 xca 内部资料回填。"},
 ];
 
+/* ============================================================
+ * 推断层 v8 — 全部由现有字段派生, 不引入新事实, 不改原始数据
+ * tier: 内存档位 / price: 公开价 / who: 人话定位 / conv: 换算
+ * ============================================================ */
+const TIER_META = {
+  t1:{label:"8–16GB", sub:"边缘视觉/小模型"},
+  t2:{label:"32–64GB", sub:"x86 轻量推理"},
+  t3:{label:"64–128GB", sub:"桌面大模型主力档", cap:"70B 顺跑 · 200B 量化可跑"},
+  t4:{label:"512GB+", sub:"工作站顶配", cap:"400–600B MoE 量化"},
+  t5:{label:"96–144GB HBM", sub:"数据中心显存", cap:"显存口径 · 非系统内存"},
+  tc:{label:"按配置", sub:"企业机 · 无固定档"}
+};
+function tierOf(d){
+  const m = d.m || "";
+  if (/HBM/i.test(m)) return "t5";
+  if (/512|784/.test(m)) return "t4";
+  if (/LPDDR/i.test(m) && /64|96|128/.test(m)) return "t3";
+  if (/DDR5/i.test(m) && /32|64/.test(m)) return "t2";
+  if (/(^|\D)(8|12|16)GB/.test(m)) return "t1";
+  return "tc";
+}
+
+/* price: 仅 7 条有公开价, 全部取自原 note 原文, 其余 null */
+const PRICE_MAP = {
+  0:{t:"$3,999 起", k:"起售价"},
+  1:{t:"$99,000–149,000", k:"报道口径"},
+  2:{t:"$3,499", k:"官方定价"},
+  3:{t:"$249 起", k:"起售价"},
+  5:{t:"$1,999 起", k:"起售价 · 128GB 版"},
+  6:{t:"$1,499 起", k:"报道价 · 美区"},
+  37:{t:"≈500 万级", k:"报道口径"}
+};
+
+/* who: 每条 ≤20 字 · 以"…的人/团队"收尾 · 仅由现有字段推断 */
+const WHO_MAP = {
+  0:"想在自己桌上跑 200B 的个人开发者",
+  1:"要替代小型数据中心的土豪团队",
+  2:"做机器人/具身智能的开发团队",
+  3:"预算有限的 AI 入门玩家",
+  4:"医疗产线要过安全认证的工程师",
+  5:"想要可维修本地 AI 主机的极客",
+  6:"想用国产盒子跑 70B 的小团队",
+  7:"要品牌保修的创意工作室",
+  8:"公司统一采购的迷你工作站用户",
+  9:"要独显小主机的办公创作者",
+  10:"想要磁吸显卡坞扩展的折腾党",
+  11:"要跑 600B 量化模型的本地玩家",
+  12:"要满血 671B DeepSeek 的企业",
+  13:"想一口气买齐训推+存储的 IT",
+  14:"想要桌上 200B 的创业者",
+  15:"要昇腾生态满血 R1 的政企",
+  16:"要买预装智能体平台的小团队",
+  17:"要昇腾+天璇全家桶的企业",
+  18:"要昇思全栈训推的机房团队",
+  19:"要在变电站塞视频识别的集成商",
+  20:"要升级边缘多路视频的园区",
+  21:"要 384 路视频分析的弱电间",
+  22:"要 2 小时开箱的政企 IT",
+  23:"要万亿参数训练的国字头客户",
+  24:"要首批上 950PR 的昇腾客户",
+  25:"要昇腾 DeepSeek 的政务/教育局",
+  26:"要高并发低时延推理的企业",
+  27:"要多模态一体化的集成商",
+  28:"要端侧 32B 的保密单位",
+  29:"要智能客服开箱的呼叫中心",
+  30:"要国产 OS+机密计算的政企",
+  31:"要信创+AI 打包的集成商",
+  32:"要跟华为节奏出货的昇腾客户",
+  33:"要文心+DeepSeek 双生态的企业",
+  34:"要大模型安全保险箱的安全团队",
+  35:"要日日新模型捆绑交付的企业",
+  36:"要教育医疗办公场景的甲方",
+  37:"预算走立项的政企旗舰买家",
+  38:"要 GLM 私有化交付的大模型团队",
+  39:"要云平台+AI 一体的 IT",
+  40:"要数据分析+大模型一体的企业",
+  41:"要 DataCanvas 平台预装的公司",
+  42:"要比 H20 便宜 32% 的运营商",
+  43:"要渠道最广交付网的服务器买家",
+  44:"要双报告背书的政企客户",
+  45:"要国际 OEM 服务的政企",
+  46:"要全国产化的信创单位",
+  47:"要金融知识库一体的银行",
+  48:"要 CUDA 兼容的国产替代者",
+  49:"要国产 GPU 训推的尝鲜者",
+  50:"要国产加速卡规模化训推的企业",
+  51:"要思元生态整机的政企",
+  52:"要云网一体打包的电信客户",
+  53:"要 MaaS 预装的联通客户",
+  54:"要算力积木边缘站的深圳政企",
+  55:"要工控双生态边缘盒的设备商",
+  56:"要台系工控产线方案的设备商",
+  57:"【待核】找网关算力盒的内部人",
+  58:"【待核】找政企一体机的内部人"
+};
+
+/* conv: 身体能感知的量 — 形态推断 + 原文已有参数, 无素材的不显示 */
+const FORM_SENSE = {
+  box:"放桌上 · 插电即用 · 单人主力",
+  mini:"放桌上 · 单人用",
+  edge:"塞弱电间/挂现场 · 免机房",
+  enterprise:"进机房或弱电间 · 团队共用",
+  rack:"进机房上架 · 专业运维"
+};
+function convOf(d){
+  const parts = [FORM_SENSE[d.form] || ""];
+  const m = d.m || "";
+  if (/512|784/.test(m)) parts.push("塞得进 400–600B 量化版大模型");
+  else if (/128|96/.test(m) && /LPDDR|统一内存/.test(m)) parts.push("塞得进 70B 级模型");
+  if (/1 PFLOP/i.test(d.note)) parts.push("≈50 人同时提问不卡");
+  if (/20 PFLOPS/i.test(d.note)) parts.push("百人团队同时用不卡");
+  if (/67 TOPS/.test(d.note)) parts.push("几个人同时用不卡");
+  if (/600W/.test(d.note)) parts.push("得单独拉电");
+  if (/-40℃/.test(d.note)) parts.push("户外级温度耐受");
+  return parts.filter(Boolean).join(" · ");
+}
+/* 统一内存口径括注 */
+function memText(d){
+  let m = d.m || "";
+  if (!m || m === "按配置" || m === "按型号" || m === "未公布") return "未公开";
+  if (/HBM/i.test(m) && !/显存/.test(m)) m += " · GPU 显存口径(非系统内存)";
+  else if (/统一内存|LPDDR/i.test(m) && !/统一内存/.test(m)) m += " · 统一内存";
+  return m;
+}
+/* P1-2 可信度翻译 */
+const ST_TEXT = {
+  official:"有产品页 · 可询价",
+  media:"发布会阶段 · 先别谈交付"
+};
+
 /* ============ 三句话结论(动态) ============ */
 function renderTakeaways(){
   const total = DATA.length;
@@ -591,22 +854,35 @@ function renderOverview(){
 }
 
 /* ============ 渲染 ============ */
-const state = {region:"all", form:"all", camp:"all"};
+const state = {region:"all", form:"all", camp:"all", sort:"default"};
 
 function domainOf(url){ try{ return new URL(url).hostname.replace(/^www\./,""); }catch(e){ return ""; } }
 
-function card(d, i){
+function card(d, i, opt){
+  opt = opt || {};
   const srcHtml = d.src
     ? `<a class="src ${d.st==="media"?"media":""}" href="${d.src}" target="_blank" rel="noopener">${d.st==="official"?"官方 ↗":"报道 ↗"}<span class="srcdomain">${domainOf(d.src)}</span></a>`
     : `<span class="src media" style="color:var(--ink3)">出处待回填</span>`;
+  const tier = tierOf(d), tm = TIER_META[tier];
+  const price = PRICE_MAP[i] || null;
+  const who = WHO_MAP[i] || "";
+  const conv = convOf(d);
+  const bpmM = d.model.match(/(\d+B|\d+–\d+B|万亿)/);
+  const bpm = bpmM && /200B|600B|671B|405B|万亿|400|满血/.test(d.model) ? bpmM[0] : null;
   return `<article class="card" style="--camp:${CAMP_COLOR[d.camp]||"var(--ink3)"}">
     <div class="chead"><span class="cvendor">${d.v}</span><span class="cnum">#${String(i+1).padStart(3,"0")}</span></div>
-    <h3 class="cname">${d.n}</h3>
+    <div class="cname-row"><h3 class="cname">${d.n}</h3><span class="tier ${tier}">${tm.label}<small>${tm.sub}</small></span></div>
+    ${bpm ? `<div style="margin-top:-6px"><span class="tier" style="display:inline-block;padding:2px 9px;font-size:11px;background:#eaf1fe;color:#1d4ed8">✦ ${bpm} 级</span></div>` : ""}
+    ${who ? `<div class="who">适合：${who}</div>` : ""}
+    <div class="pricebox ${price ? "" : "na"}">
+      <div class="price">${price ? price.t : "企业级 · 需询价"}</div>
+      <div class="price-k">${price ? price.k : "无公开报价"}</div>
+    </div>
     <dl class="cspec">
       <dt>可跑模型</dt><dd class="hl">${d.model}</dd>
       <dt>发布</dt><dd>${d.d}</dd>
       <dt>芯片</dt><dd>${d.c}</dd>
-      ${d.m && d.m!=="按配置" ? `<dt>内存</dt><dd>${d.m}</dd>` : ""}
+      <dt>内存</dt><dd>${memText(d)}</dd>
     </dl>
     <div class="ctags">
       <span class="tag form">${FORM_LABEL[d.form]}</span>
@@ -614,56 +890,49 @@ function card(d, i){
       <span class="tag">${d.region==="cn"?"国内":"国外"}</span>
     </div>
     ${d.note ? `<p class="note">${d.note}</p>` : ""}
-    <div class="cfoot">${srcHtml}<span style="font-size:11px;color:${d.st==="official"?"var(--ok)":"var(--warn)"}">${d.st==="official"?"official":"media"}</span></div>
+    ${conv ? `<div class="conv">换算：<b>${conv}</b></div>` : ""}
+    <div class="cfoot">${srcHtml}<span class="sttxt ${d.st==="official"?"off":"med"}">${ST_TEXT[d.st]||"待核 · 别当真"}</span>${opt.cmp?`<label style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink3);cursor:pointer;margin-left:8px"><input type="checkbox" class="ckbox" data-cmp="${i}">对比</label>`:""}</div>
   </article>`;
 }
 
+/* P0-6: 显式 ID 分组表 — 每条恰好出现一次, 根治跨组重复(#025/#032/#037) */
+const GROUP_TABLE = [
+  {key:"nvidia",  ids:[0,1,2,3,4],             title:"NVIDIA 官方盒子系列", sub:"品类定义者:Spark $3,999 起,七家 OEM 同步铺货"},
+  {key:"amd",     ids:[5,6,7,8],               title:"AMD Strix Halo 迷你主机潮", sub:"128GB 统一内存 $1,999——70B 模型的平民路线"},
+  {key:"apple",   ids:[11],                    title:"边界样本", sub:"官方没这么说,但全世界都这么用"},
+  {key:"xfusion", ids:[12,13,14,15,16],        title:"超聚变系 / 昆仑系", sub:"华为 x86 血脉:百万级一体机与 GB10 小盒双线"},
+  {key:"isoft",   ids:[17,18,24],              title:"软通系", sub:"昇腾授权伙伴,天璇 MaaS 软硬一体"},
+  {key:"atlas",   ids:[19,20,21,22,23],        title:"华为 Atlas 边缘系列", sub:"从 2018 年 Atlas 500 开始的边缘小站祖师爷"},
+  {key:"ascend",  ids:[25,26,27,28,29,30,31,32], title:"昇腾生态一体机潮 · 2025.02 DeepSeek 时刻", sub:"8 家 ISV 同月密集上新,全冲“满血私有化”"},
+  {key:"cloud",   ids:[33,34,35,36,37,38,39,40,41,42], title:"云厂商 / AI 公司一体机", sub:"云厂商贴牌 + 平头哥 PPU 私有化:国产算力价格战开幕"},
+  {key:"oem",     ids:[9,10,43,44,45,46,47,48,49,50,51], title:"服务器 / 基础设施 OEM", sub:"服务器厂的共同答案:自研芯片装进自家整机(含 x86 迷你主机)"},
+  {key:"carrier", ids:[52,53],                 title:"运营商云一体机", sub:"运营商的双重身份:既贴牌卖,又批量买国产算力"},
+  {key:"edgecn",  ids:[54,55,56],              title:"边缘 / 行业小站", sub:"工控老兵的双线策略:Jetson 与昇腾通吃"},
+  {key:"pending", ids:[57,58],                 title:"待核区", sub:"弱信源,谨慎采信,等官方出处"},
+];
+const TIER_ORDER = {t1:1,t2:2,t3:3,t4:4,t5:5,tc:9};
+function yearOf(d){ const m=d.d.match(/(20\d\d)/); return m?+m[1]:0; }
+function sortItems(items){
+  if(state.sort==="tier") items.sort((a,b)=>(TIER_ORDER[tierOf(a.d)]-TIER_ORDER[tierOf(b.d)])||a.i-b.i);
+  else if(state.sort==="year") items.sort((a,b)=>(yearOf(b.d)-yearOf(a.d))||a.i-b.i);
+  else if(state.sort==="st") items.sort((a,b)=>((a.d.st==="official"?0:1)-(b.d.st==="official"?0:1))||a.i-b.i);
+  return items;
+}
 function render(){
-  const list = DATA.map((d,i)=>({d,i})).filter(({d}) =>
-    (state.region==="all"||d.region===state.region) &&
-    (state.form==="all"||d.form===state.form) &&
-    (state.camp==="all"||d.camp===state.camp));
-  const groups = [
-    {key:"nvidia",  title:"NVIDIA 官方盒子系列", sub:"品类定义者:Spark $3,999 起,七家 OEM 同步铺货"},
-    {key:"amd",     title:"AMD Strix Halo 迷你主机潮", sub:"128GB 统一内存 $1,999——70B 模型的平民路线"},
-    {key:"apple",   title:"边界样本", sub:"官方没这么说,但全世界都这么用"},
-    {key:"xfusion", title:"超聚变系 / 昆仑系", sub:"华为 x86 血脉:百万级一体机与 GB10 小盒双线"},
-    {key:"isoft",   title:"软通系", sub:"昇腾授权伙伴,天璇 MaaS 软硬一体"},
-    {key:"atlas",   title:"华为 Atlas 边缘系列", sub:"从 2018 年 Atlas 500 开始的边缘小站祖师爷"},
-    {key:"ascend",  title:"昇腾生态一体机潮 · 2025.02 DeepSeek 时刻", sub:"8 家 ISV 同月密集上新,全冲“满血私有化”"},
-    {key:"cloud",   title:"云厂商 / AI 公司一体机", sub:"云厂商贴牌 + 平头哥 PPU 私有化:国产算力价格战开幕"},
-    {key:"oem",     title:"服务器 / 基础设施 OEM", sub:"服务器厂的共同答案:自研芯片装进自家整机"},
-    {key:"carrier", title:"运营商云一体机", sub:"运营商的双重身份:既贴牌卖,又批量买国产算力"},
-    {key:"edgecn",  title:"边缘 / 行业小站", sub:"工控老兵的双线策略:Jetson 与昇腾通吃"},
-    {key:"pending", title:"待核区", sub:"弱信源,谨慎采信,等官方出处"},
-  ];
-  const match = d =>
-    d.st==="pending" ? false : true;
-  const pick = (g) => list.filter(({d}) => {
-    switch(g){
-      case "nvidia": return ["DGX Spark","DGX Station","Jetson AGX Thor","Jetson Orin Nano Super","IGX Orin"].includes(d.n);
-      case "amd": return d.camp==="amd";
-      case "apple": return d.camp==="apple";
-      case "xfusion": return d.v.includes("超聚变")||d.v.includes("昆仑技术")||d.v.includes("昆仑元");
-      case "isoft": return d.v.includes("软通");
-      case "atlas": return d.v==="华为";
-      case "ascend": return d.camp==="ascend" && !["华为","软通动力","软通动力(软通计算机)","宝德 PowerLeader"].includes(d.v) && d.st!=="pending";
-      case "cloud": return ["百度智能云","深信服","商汤科技","科大讯飞","广电运通","智谱 AI","ZStack","星环科技","九章云极 DataCanvas","阿里平头哥"].includes(d.v);
-      case "oem": return ["浪潮信息","新华三 H3C","联想","曙光云","先进数通","曙光/海光系","摩尔线程","燧原科技","寒武纪","宝德 PowerLeader","神州数码","Khadas"].includes(d.v);
-      case "carrier": return ["天翼云","联通数科"].includes(d.v);
-      case "edgecn": return ["云天励飞","研华 Advantech","凌华 ADLINK"].includes(d.v);
-      case "pending": return d.note.includes("【待核】");
-    }
-  });
-  let html = "";
-  for(const g of groups){
-    const items = pick(g.key);
+  const pass = new Set(DATA.map((d,i)=>i).filter(i =>
+    (state.region==="all"||DATA[i].region===state.region) &&
+    (state.form==="all"||DATA[i].form===state.form) &&
+    (state.camp==="all"||DATA[i].camp===state.camp)));
+  let shown = 0, html = "";
+  for(const g of GROUP_TABLE){
+    const items = sortItems(g.ids.filter(i=>pass.has(i)).map(i=>({d:DATA[i],i})));
     if(!items.length) continue;
-    html += `<div class="group-h"><h2>${g.title}</h2><span class="sub">${items.length} 款 · ${g.sub}</span><span class="bar"></span></div><div class="grid">${items.map(({d,i})=>card(d,i)).join("")}</div>`;
+    shown += items.length;
+    html += `<div class="group-h"><h2>${g.title}</h2><span class="sub">${items.length} 款 · ${g.sub}</span><span class="bar"></span></div><div class="grid">${items.map(({d,i})=>card(d,i,{cmp:true})).join("")}</div>`;
   }
   document.getElementById("groups").innerHTML = html;
-  document.getElementById("empty").style.display = list.length?"none":"block";
-  document.getElementById("count").textContent = `显示 ${list.length} / ${DATA.length} 款`;
+  document.getElementById("empty").style.display = shown?"none":"block";
+  document.getElementById("count").textContent = `显示 ${shown} / ${DATA.length} 款`;
 }
 
 function bindFilter(id, key){
@@ -679,6 +948,127 @@ function bindFilter(id, key){
 bindFilter("fRegion","region");
 bindFilter("fForm","form");
 bindFilter("fCamp","camp");
+bindFilter("fSort","sort");
+
+/* ============ P0-4 三问选机 ============ */
+const pk = {budget:"any", place:"any", users:"any"};
+function pkBind(id, key){
+  const box = document.getElementById(id);
+  box.addEventListener("click", e=>{
+    const b = e.target.closest(".pk-o"); if(!b) return;
+    box.querySelectorAll(".pk-o").forEach(x=>x.classList.remove("on"));
+    b.classList.add("on"); pk[key]=b.dataset.v; pkRun();
+  });
+}
+pkBind("pkBudget","budget"); pkBind("pkPlace","place"); pkBind("pkUsers","users");
+
+const PLACE_OK = {desk:["box","mini"], closet:["edge","enterprise"], room:["rack","enterprise"]};
+const USERS_OK = {one:["box","mini","edge"], team:["box","mini","enterprise"], all:["enterprise","rack"]};
+/* 人民币口径仅用于分桶判断, 不换算显示 */
+const PRICE_BUCKET = {0:"lt5",2:"lt5",3:"lt5",5:"lt5",6:"lt5",1:"gt100",37:"gt100"};
+
+function pkRun(){
+  const hint = document.getElementById("pkHint"), grid = document.getElementById("pkGrid");
+  let pool = DATA.map((d,i)=>({d,i}));
+  const hints = [];
+  if(pk.budget!=="any"){
+    if(pk.budget==="lt5"){
+      const before = pool.length;
+      pool = pool.filter(x=>PRICE_BUCKET[x.i]==="lt5");
+      hints.push(`预算 5 万内：公开零售价的只有 ${pool.length} 款（其余 ${before-pool.length} 款为企业级·需询价，通常 10 万以上——已帮你排除）。`);
+    }else if(pk.budget==="gt100"){
+      const has = pool.filter(x=>PRICE_BUCKET[x.i]==="gt100");
+      pool = has.length ? has : pool.filter(x=>["rack","enterprise"].includes(x.d.form));
+      hints.push("100 万以上：此区间全是机房级旗舰，工作站顶配(DGX Station)与私有化一体机(广电运通级)是两种典型答案。");
+    }else{
+      hints.push("10–50 万：这个区间没有公开标价的产品——对应高配企业机，全部需询价。下面按「能谈」的方向推荐。");
+    }
+  }
+  if(pk.place!=="any") pool = pool.filter(x=>PLACE_OK[pk.place].includes(x.d.form));
+  if(pk.users!=="any") pool = pool.filter(x=>USERS_OK[pk.users].includes(x.d.form));
+  /* 排除待核区 */
+  pool = pool.filter(x=>!x.d.note.includes("【待核】"));
+  /* 排序: 有价优先 > official 优先 > 档位 */
+  pool.sort((a,b)=>{
+    const pa = PRICE_MAP[a.i]?0:1, pb = PRICE_MAP[b.i]?0:1;
+    if(pa!==pb) return pa-pb;
+    const sa = a.d.st==="official"?0:1, sb = b.d.st==="official"?0:1;
+    if(sa!==sb) return sa-sb;
+    return TIER_ORDER[tierOf(a.d)]-TIER_ORDER[tierOf(b.d)];
+  });
+  hint.innerHTML = hints.join("");
+  const top = pool.slice(0,3);
+  grid.innerHTML = top.length
+    ? top.map(({d,i})=>card(d,i)).join("")
+    : `<p style="color:var(--ink3);font-size:14px;padding:20px 0">这个组合下没有匹配——放宽一问试试。</p>`;
+}
+pkRun();
+
+/* ============ P1-1 对比 ============ */
+const cmpSet = new Set();
+document.addEventListener("change", e=>{
+  const c = e.target.closest("[data-cmp]"); if(!c) return;
+  const i = +c.dataset.cmp;
+  if(c.checked){ if(cmpSet.size>=4){ c.checked=false; return; } cmpSet.add(i); }
+  else cmpSet.delete(i);
+  cmpBar();
+});
+function cmpBar(){
+  let el = document.getElementById("cmpbar");
+  if(!el){
+    el = document.createElement("div"); el.id="cmpbar"; el.className="cmp-bar";
+    el.innerHTML = `<div class="cmp-in"><span class="ct">已选 <b id="cmpn">0</b>/4 台</span><span class="cmp-chips" id="cmpchips"></span><button class="cmp-go" id="cmpgo" disabled>并排对比</button><button class="cmp-clear" id="cmpclr">清空</button></div>`;
+    document.body.appendChild(el);
+    el.querySelector("#cmpclr").onclick = ()=>{ cmpSet.clear(); document.querySelectorAll("[data-cmp]").forEach(x=>x.checked=false); cmpBar(); };
+    el.querySelector("#cmpgo").onclick = cmpPanel;
+  }
+  el.classList.toggle("on", cmpSet.size>0);
+  el.querySelector("#cmpn").textContent = cmpSet.size;
+  el.querySelector("#cmpchips").innerHTML = [...cmpSet].map(i=>`<span class="cmp-chip">${DATA[i].n}<button data-un="${i}" title="移除">×</button></span>`).join("");
+  el.querySelector("#cmpgo").disabled = cmpSet.size<2;
+  el.querySelectorAll("[data-un]").forEach(b=>b.onclick=()=>{
+    cmpSet.delete(+b.dataset.un);
+    const cb = document.querySelector(`[data-cmp="${b.dataset.un}"]`); if(cb) cb.checked=false;
+    cmpBar();
+  });
+}
+function cmpPanel(){
+  const ids = [...cmpSet];
+  let el = document.getElementById("cmppanel");
+  if(!el){ el=document.createElement("div"); el.id="cmppanel"; el.className="cmp-panel"; document.body.appendChild(el); }
+  const row = (label, fn)=>`<tr><td>${label}</td>${ids.map(i=>`<td>${fn(DATA[i],i)}</td>`).join("")}</tr>`;
+  const verdict = ids.length===2 ? cmpVerdict(ids[0], ids[1]) : cmpVerdict(ids[0], ids[1]) + "<br>" + cmpVerdict(ids[1], ids[2]);
+  el.innerHTML = `<button class="cmp-close" onclick="this.parentNode.classList.remove('on')">×</button>
+    <h3>并排对比 · ${ids.length} 台</h3>
+    <p class="cp-sub">只比买前真正要决定的 5 件事</p>
+    <table class="cmp-table">
+      <tr><td></td>${ids.map(i=>`<th>${DATA[i].v} ${DATA[i].n}</th>`).join("")}</tr>
+      ${row("多少钱",(d,i)=>PRICE_MAP[i]?`<b>${PRICE_MAP[i].t}</b><br><span style="font-size:11px;color:var(--ink3)">${PRICE_MAP[i].k}</span>`:"企业级 · 需询价")}
+      ${row("哪个档位",(d,i)=>{const t=tierOf(d);return `<span class="tier ${t}" style="display:inline-block">${TIER_META[t].label}<small>${TIER_META[t].sub}</small></span>`;})}
+      ${row("几人用",(d,i)=>{const f=d.form;return f==="box"||f==="mini"?"1 人主力":f==="edge"?"1-5 人/现场":"5 人以上团队";})}
+      ${row("放哪",d=>({box:"桌上",mini:"桌上",edge:"弱电间/现场",enterprise:"机房/弱电间",rack:"机房上架"})[d.form])}
+      ${row("能现在买吗",(d,i)=>d.src?`<a href="${d.src}" target="_blank" style="color:var(--cnp)">${d.st==="official"?"有产品页 · 可询价":"发布会阶段 · 先别谈交付"}</a>`:"待核 · 别当真")}
+    </table>
+    <div class="cmp-verdict"><b>一句话结论：</b>${verdict}</div>`;
+  el.classList.add("on");
+}
+function cmpVerdict(a, b){
+  const A = DATA[a], B = DATA[b];
+  const pa = PRICE_MAP[a], pb = PRICE_MAP[b];
+  let s = "";
+  if(pa && pb){
+    const na = parseFloat(pa.t.replace(/[^0-9.]/g,"").split("–")[0]), nb = parseFloat(pb.t.replace(/[^0-9.]/g,"").split("–")[0]);
+    if(nb>na) s += `${B.n} 比 ${A.n} 贵 ${(nb/na).toFixed(1)} 倍,`;
+    else if(na>nb) s += `${B.n} 比 ${A.n} 便宜 ${(na/nb).toFixed(1)} 倍,`;
+    else s += "两者同价,";
+  }
+  const ta = TIER_ORDER[tierOf(A)], tb = TIER_ORDER[tierOf(B)];
+  if(tb>ta) s += ` 档位高 ${tb-ta} 级。`;
+  else if(ta>tb) s += ` 档位低 ${ta-tb} 级。`;
+  else s += " 同档。";
+  if(!pa || !pb) s += " 价格需向厂商询价确认。";
+  return s;
+}
 
 /* 统计 */
 const vendors = new Set(DATA.map(d=>d.v));
@@ -689,6 +1079,11 @@ document.getElementById("stats").innerHTML = `
   <div class="stat"><div class="n" style="color:var(--ok)">${officials}</div><div class="l">官方源核实</div></div>
   <div class="stat"><div class="n" style="color:var(--warn)">${DATA.length-officials}</div><div class="l">媒体源待核</div></div>`;
 
+/* P0-4: 科普与判断下沉到三问选机之后(搬移而非复制) */
+document.getElementById("judgement-body").append(
+  document.querySelector(".takeaways"),
+  document.querySelector(".memguide")
+);
 renderTakeaways();
 renderOverview();
 render();
