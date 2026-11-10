@@ -261,6 +261,73 @@
     .grid{grid-template-columns:1fr}
     #count{width:100%;margin:0}
   }
+
+  /* ===== 移动端专项 (<560px): 单手持机, 一屏一焦点 ===== */
+  @media (max-width:560px){
+    .wrap{padding:0 16px}
+    header{padding:36px 0 20px}
+    .lede{font-size:15px;margin-top:14px}
+    /* KPI 2×2, 收窄 */
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+    .stat{padding:12px 14px;min-width:0}
+    .stat .n{font-size:25px}
+    /* 组标题: 副标换行, 装饰线隐藏 */
+    .group-h,.tl-head,.ov-head{flex-wrap:wrap;gap:5px 12px;margin:30px 0 14px}
+    .group-h .sub,.tl-head .sub,.ov-head .sub{width:100%;order:3;font-size:12.5px}
+    .group-h .bar,.tl-head .bar,.ov-head .bar{display:none}
+    .group-h h2,.tl-head h2,.ov-head h2{font-size:19px}
+    /* 卡片收紧 */
+    .card{padding:16px 16px 13px;gap:11px;border-radius:10px}
+    .cname{font-size:17px}
+    .tier{font-size:11px;padding:4px 9px}
+    .cspec{font-size:13.5px;gap:4px 12px}
+    .who{font-size:12.5px;padding:6px 10px}
+    .price-k{font-size:10px}
+    .note{font-size:12.5px}
+    .conv{font-size:12px}
+    .ctags{gap:6px}
+    .tag{font-size:11px;padding:2px 9px}
+    .cfoot{font-size:12px}
+    /* 说明框/规则框 */
+    .rulebox{padding:12px 14px;font-size:13.5px;margin-top:16px}
+    .price-note{font-size:12.5px;padding:8px 12px}
+    /* 科普 summary 换行 */
+    .memguide>summary{padding:13px 16px;flex-wrap:wrap;gap:2px 10px}
+    .memguide>summary .mg-a{width:100%;margin:3px 0 0}
+    .mg-body{padding:16px}
+    .mg-def{font-size:13px}
+    /* 筛选栏减高 */
+    .filters{padding:10px 0}
+    .chip{padding:5px 12px;font-size:12px}
+    .frow{gap:8px 12px}
+    .fgroup{gap:6px}
+    /* 三问选机 */
+    .picker{padding:24px 0 4px}
+    .pk-grid{padding:14px 16px;gap:12px}
+    .pk-o{padding:5px 11px;font-size:12px}
+    /* takeaways */
+    .takeaways{margin-top:22px}
+    .tk{grid-template-columns:28px 1fr;gap:10px;padding:12px 0}
+    .tk .n{font-size:17px}
+    .tk .tx{font-size:13.5px}
+    /* 对比栏 */
+    .cmp-in{padding:10px 14px;gap:10px}
+    .cmp-go{flex:1 1 100%;order:9;padding:10px}
+    /* ov 图表 */
+    .ov-card{padding:14px 14px}
+    .ov-row{grid-template-columns:84px 1fr;gap:8px}
+    .ov-label{font-size:12px}
+    /* 时间轴 */
+    .tl-node{padding-bottom:16px}
+    .tl-tag{font-size:11px}
+    .tl-t{font-size:14px}
+  }
+
+  /* 超窄 (<380px): 徽章换行到名称下方 */
+  @media (max-width:380px){
+    .cname-row{flex-wrap:wrap}
+    .cname-row .tier{order:2}
+  }
 </style>
 </head>
 <body>
